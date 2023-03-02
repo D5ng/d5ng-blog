@@ -1,7 +1,7 @@
 # Table of contents
 
 * [D5ng Blog](README.md)
-* [JavaScript](javascript/README.md)
+* [📙  JavaScript](javascript/README.md)
   * [4장. 변수](javascript/4-..md)
   * [5장. 표현식과 문](javascript/5-..md)
   * [6장. 데이터타입](javascript/6-..md)
@@ -10,3 +10,10 @@
   * [9장. 타입 변환과 단축 평가](javascript/9-..md)
   * [10장. 객체 리터럴](javascript/10-..md)
   * [11장. 원시타입과 참조타입](javascript/11-..md)
+* [📙 JavaScript 핵심](javascript-1/README.md)
+  * [변수](javascript-1/undefined.md)
+  * [원시타입과 참조타입](javascript-1/undefined-1.md)
+  * [함수 표현식과 함수 선언문](javascript-1/undefined-2.md)
+  * [콜백함수와 고차함수](javascript-1/undefined-3.md)
+  * [순수 함수와 비순수 함수](javascript-1/undefined-4.md)
+  * [스코프](javascript-1/undefined-5.md)

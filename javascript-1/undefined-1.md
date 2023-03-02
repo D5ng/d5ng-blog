@@ -1,0 +1,124 @@
+# 원시타입과 참조타입
+
+## 원시타입이란 ? <a href="#undefined" id="undefined"></a>
+
+자바스크립트 데이터 타입(자료형)을 보면 객체를 제외한 나머지가 원시타입이다.\
+원시타입은 <mark style="color:red;">**변경 불가능한 값**</mark>을 가르킨다.
+
+여기서 의문은, 우리가 여태까지 변수에 원시타입인 값들을 넣고 재할당을 통해서\
+값을 바꾸었는데 변경 불가능한 값이라는게 이해가 되지 않을것이다.
+
+```javascript
+// 값을 저장하기 위해 메모리 공간을 확보하고 variable이라는 이름으로 확보한 메모리 주소를 나타낸다
+let variable = 1
+
+// 새로운 메모리를 확보하고 재할당한 값을 넣은 후 변수는 재할당된 메모리 주소를 가르킨다.
+variable = 5
+
+// 바로 위와 마찬가지다.
+variable = "동현"
+```
+
+설명하기전에 다시한번 변수에 대해서 짚어보자면,\
+변수는 하나의 값을 저장하는 메모리 공간자체고 그 공간을 식별하기 위해 붙인 이름이다.\
+<mark style="color:red;">**변경이 불가능하다는것은 변수가 아니라 값에 대한 진술**</mark>이다.
+
+> “원시 값은 변경 불가능하다”는 말은 원시 값 자체를 변경할 수 없다는 것이지 변수 값을 변경할 수 없다는 것이 아니다. 변수는 언제든지 재할당을 통해 변수 값을 변경 할 수 있다.
+
+원시 값을 할당한 변수에 새로운 원시 값을 재할당하게되면 기존에 있던 메모리 공간에서 값이 바뀌는게 아니라, <mark style="color:red;">**새로운 메모리 공간을 확보하고 재할당한 값을 저장한다.**</mark> 그리고 <mark style="color:red;">**변수가 참조하던 메모리 주소**</mark>가 바뀐다.
+
+***
+
+## 참조타입이란 ? <a href="#undefined" id="undefined"></a>
+
+객체는 참조타입이다. 참조타입은 <mark style="color:red;">**변경 가능한 값**</mark> 을 말한다.\
+원시타입은 메모리 주소를 통해서 값을 알아낼 수 있지만, 참조타입은 메모리 주소로 객체에 접근할 수 있다. <mark style="color:red;">**객체는 변경 가능한 값이기 때문에 재할당이 없어도 객체의 추가, 삭제, 변경이 가능하다.**</mark> 이러한 이유때문에 const로 선언한 객체도 바꿀 수 있는것이다.
+
+```javascript
+// const는 재할당이 금지된 변수다.
+// 참조타입은 변경 가능한 값이기때문에 const로 선언해도 바꿀 수 있는것이다.
+const user = {
+  name: "Dongs",
+  age: 28,
+  hobby: ["Foot Ball", "Study", "Table Tennis"],
+}
+
+user.name = "동현"
+
+const numberArray = [1, 2, 3, 4, 5]
+
+numberArray[5] = 6
+```
+
+## 원시값 복사와 참조타입의 복사 <a href="#undefined" id="undefined"></a>
+
+### 원시값 복사 <a href="#undefined" id="undefined"></a>
+
+원시값을 복사하게되면 서로 다른 메모리 주소이기에, 서로 영향이 없다.
+
+```javascript
+let x = 10 // 하나의 값을 저장하기 위해 메모리 공간 확보.
+let y = x // 새로운 값 10을 생성해서 메모리 공간 확보.
+
+// 위에 x와 y의 메모리주소가 다르다.
+// x의 메모리주소를 y에 전달하는게 아니라 y에 x(숫자 10)을 다른 메모리에 할당했기 때문이다.
+// 따라서 y의 값을 바꾸어도 x에는 영향을 끼치지 않는다.
+
+y = 1
+
+console.log(x, y) // 10, 1
+```
+
+### 참조값 복사 <a href="#undefined" id="undefined"></a>
+
+참조값을 복사하게되면 같은 메모리 주소를 가르키게된다.
+
+```javascript
+// 객체는 변경 가능한 값이다.
+const user = { name: "dongs", age: 28 }
+const user2 = user // user의 메모리주소를 user2에게도 공유를 한거다.
+
+user2.name = "동현" // 같은 메모리주소를 참조하고있고, 값을 바꾸었기때문에 서로 영향이간다.
+
+console.log(user) // { name: '동현', age: 28 }
+console.log(user2) // { name: '동현', age: 28 }
+```
+
+***
+
+## 얕은 복사와 깊은 복사 <a href="#undefined" id="undefined"></a>
+
+### 얕은 복사 <a href="#undefined" id="undefined"></a>
+
+얕은 복사는 바로 위 예제처럼 참조값 (메모리 주소)만 복사한것을 말한다.
+
+> 얕은 복사란 객체를 복사할 때 기존 값과 복사된 값이 같은 참조를 가리키고 있는 것을 말합니다.객체 안에 객체가 있을 경우 한 개의 객체라도 기존 변수의 객체를 참조하고 있다면 이를 얕은 복사라고 합니다.
+
+```javascript
+const user = { name: "dongs", age: 28, hobby: ["Soccer", "Study"] }
+const user2 = { ...user }
+
+user2.hobby[0] = "Foot Ball"
+
+console.log(user, user2) // { name: 'dongs', age: 28, hobby: ['Foot Ball', 'Study'] }
+```
+
+### 깊은 복사 <a href="#undefined" id="undefined"></a>
+
+서로 다른 메모리 주소를 참조하면서 객체에 중첩되어있는 객체까지 복사한것을 말한다.
+
+```
+const user = { name: "dongs", age: 28, hobby: ["Soccer", "Study"] }
+const user2 = { ...user, hobby: [...user.hobby] }
+
+user2.hobby[0] = "Foot Ball"
+
+console.log(user) // { name: 'dongs', age: 28, hobby: ['Soccer', 'Study'] }
+console.log(user2) // { name: 'dongs', age: 28, hobby: ['Foot Ball', 'Study'] }
+```
+
+user와 user2는 서로 다른 메모리 주소에있고, user2를 변경해도 user는 바뀌지않는다.
+
+\
+얕은 복사와 깊은 복사는 나중에 함수형 프로그래밍에도 영향을 끼친다.\
+이부분은 중점적으로 <mark style="color:red;">**여러번 반복하면서 예제 또는 실제 작업할 때 의식적으로 사용 해야할 필요성**</mark>을 느낀다.
