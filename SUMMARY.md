@@ -10,6 +10,7 @@
   * [9장. 타입 변환과 단축 평가](javascript/9-..md)
   * [10장. 객체 리터럴](javascript/10-..md)
   * [11장. 원시타입과 참조타입](javascript/11-..md)
+  * [12장. 함수](javascript/12-..md)
 * [📙 JavaScript 핵심](javascript-point/README.md)
   * [변수](javascript-point/undefined.md)
   * [원시타입과 참조타입](javascript-point/undefined-1.md)
