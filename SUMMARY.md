@@ -1,3 +1,4 @@
 # Table of contents
 
-* [JavaScript](README.md)
+* [D5ng Blog](README.md)
+  * [JavaScript](d5ng-blog/javascript.md)
