@@ -67,10 +67,10 @@ calculate(5, 5, multiplication);
 // ===========================================================
 // ===========================================================
 // 다른예제
-const numberPrint = (number, callback) => {
-	for (let i = 0; i < number; i++) {
-		callback(number);
-	}
+const numberPrint = (number, callback) => {	
+    for (let i = 0; i < number; i++) {
+        callback(number);
+    }
 };
 
 // 숫자를 모두 출력하고싶을 때
