@@ -23,4 +23,8 @@
 * [9-..md](9-..md "mention")
 * [10-..md](10-..md "mention")
 * [11-..md](11-..md "mention")
+* [12-..md](12-..md "mention")
+* [13-..md](13-..md "mention")
+* [14-..md](14-..md "mention")
+* [15-.-let-const.md](15-.-let-const.md "mention")
 
