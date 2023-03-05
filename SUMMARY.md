@@ -15,6 +15,7 @@
   * [14장. 전역변수의 문제점](javascript/14-..md)
   * [15장. let과 const 블록레벨](javascript/15-.-let-const.md)
   * [16장. 프로퍼티 어트리뷰트](javascript/16-..md)
+  * [17장. 생성자 함수](javascript/17-..md)
 * [📙 JavaScript 핵심](javascript-point/README.md)
   * [변수](javascript-point/undefined.md)
   * [원시타입과 참조타입](javascript-point/undefined-1.md)
