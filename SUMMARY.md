@@ -17,6 +17,7 @@
   * [16장. 프로퍼티 어트리뷰트](javascript/16-..md)
   * [17장. 생성자 함수](javascript/17-..md)
   * [18장. 함수와 일급 객체](javascript/18-..md)
+  * [19장. 프로토타입](javascript/19-..md)
 * [📙 JavaScript 핵심](javascript-point/README.md)
   * [변수](javascript-point/undefined.md)
   * [원시타입과 참조타입](javascript-point/undefined-1.md)
