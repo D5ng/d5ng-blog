@@ -20,6 +20,7 @@
   * [19장. 프로토타입](javascript/19-..md)
   * [20장. strict mode](javascript/20-.-strict-mode.md)
   * [21장. 빌트인 객체](javascript/21-..md)
+  * [22장. this](javascript/22-.-this.md)
 * [📙 JavaScript 핵심](javascript-point/README.md)
   * [변수](javascript-point/undefined.md)
   * [원시타입과 참조타입](javascript-point/undefined-1.md)
