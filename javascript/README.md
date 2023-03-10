@@ -27,4 +27,12 @@
 * [13-..md](13-..md "mention")
 * [14-..md](14-..md "mention")
 * [15-.-let-const.md](15-.-let-const.md "mention")
+* [16-..md](16-..md "mention")
+* [17-..md](17-..md "mention")
+* [18-..md](18-..md "mention")
+* [19-..md](19-..md "mention")
+* [20-.-strict-mode.md](20-.-strict-mode.md "mention")
+* [21-..md](21-..md "mention")
+* [22-.-this.md](22-.-this.md "mention")
+* [23-..md](23-..md "mention")
 
