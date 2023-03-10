@@ -22,6 +22,7 @@
   * [21장. 빌트인 객체](javascript/21-..md)
   * [22장. this](javascript/22-.-this.md)
   * [23장. 실행 컨텍스트](javascript/23-..md)
+  * [24장. 클로저](javascript/24-..md)
 * [📙 JavaScript 핵심](javascript-point/README.md)
   * [변수](javascript-point/undefined.md)
   * [원시타입과 참조타입](javascript-point/undefined-1.md)
