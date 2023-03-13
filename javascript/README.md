@@ -35,4 +35,6 @@
 * [21-..md](21-..md "mention")
 * [22-.-this.md](22-.-this.md "mention")
 * [23-..md](23-..md "mention")
+* [24-..md](24-..md "mention")
+* [25-..md](25-..md "mention")
 
