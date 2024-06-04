@@ -62,3 +62,9 @@ export function parsePostContents(postPath: string) {
     content,
   }
 }
+
+export function getPostDetail(category: string, slug: string) {
+  const filePath = `${POSTS_DIRECTORY}/${category}/${slug}/content.mdx`
+  const detail = parsePost(filePath)
+  return detail
+}
