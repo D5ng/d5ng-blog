@@ -10,3 +10,9 @@ export function getCategory() {
   const category = categoryPaths.map((path) => path.split("/").slice(-1)?.[0])
   return category
 }
+
+export function getPostPaths(category?: string) {
+  const folder = category || "**"
+  const postPaths = sync(`${POSTS_DIRECTORY}/${folder}/**/*.mdx`)
+  return postPaths
+}
