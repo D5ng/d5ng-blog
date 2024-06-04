@@ -34,7 +34,7 @@ export function parsePost(postPath: string) {
 export function parsePostAbstract(postPath: string) {
   const filePath = postPath.slice(postPath.indexOf(BASE_PATH)).replace(`${BASE_PATH}/`, "").replace(".mdx", "")
   const [categoryPath, slug] = filePath.split("/")
-  const url = `blog/${categoryPath}/${slug}`
+  const url = `/blog/${categoryPath}/${slug}`
   const publicCategory = getPublicCategory(categoryPath)
 
   return { categoryPath, url, slug, publicCategory }

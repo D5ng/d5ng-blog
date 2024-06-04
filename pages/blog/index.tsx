@@ -7,7 +7,7 @@ export default function BlogPage(props: InferGetStaticPropsType<typeof getStatic
     <ul>
       {props.categoryList.map((category) => (
         <li key={category}>
-          <Link href={`blog/${category}`}>{category}</Link>
+          <Link href={`/blog/${category}`}>{category}</Link>
         </li>
       ))}
     </ul>
@@ -16,6 +16,7 @@ export default function BlogPage(props: InferGetStaticPropsType<typeof getStatic
 
 export const getStaticProps = (async () => {
   const categoryList = getCategoryList()
+
   return {
     props: { categoryList },
   }
