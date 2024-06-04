@@ -6,7 +6,7 @@ import { sync } from "glob"
 import { BASE_PATH, POSTS_DIRECTORY } from "../config"
 import { PostContents } from "./post.type"
 
-export function getCategory() {
+export function getCategoryList() {
   const categoryPaths = sync(`${POSTS_DIRECTORY}/*`)
   const category = categoryPaths.map((path) => path.split("/").slice(-1)?.[0])
   return category

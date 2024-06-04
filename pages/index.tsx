@@ -1,13 +1,21 @@
-import { GetStaticProps } from "next"
-import { getAllPosts } from "@/lib/post.lib"
+import { GetStaticProps, InferGetStaticPropsType } from "next"
+import { getCategoryList } from "@/lib/post.lib"
 
-export default function HomePage() {
-  return <div></div>
+export default function HomePage(props: InferGetStaticPropsType<typeof getStaticProps>) {
+  return (
+    <ul>
+      {props.categoryList.map((category) => (
+        <li key={category}>{category}</li>
+      ))}
+    </ul>
+  )
 }
 
 export const getStaticProps = (async () => {
-  getAllPosts()
+  const categoryList = getCategoryList()
   return {
-    props: {},
+    props: {
+      categoryList,
+    },
   }
 }) satisfies GetStaticProps
