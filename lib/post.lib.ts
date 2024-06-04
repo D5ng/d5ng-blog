@@ -2,8 +2,13 @@
  * ! 포스트 파일 가져오기.
  */
 
+import fs from "fs"
+import matter from "gray-matter"
+import readingTime from "reading-time"
+import dayjs from "dayjs"
 import { sync } from "glob"
 import { BASE_PATH, POSTS_DIRECTORY } from "../config"
+import { PostContents } from "./post.type"
 
 export function getCategory() {
   const categoryPaths = sync(`${POSTS_DIRECTORY}/*`)
@@ -25,8 +30,9 @@ export function getAllPosts(category?: string) {
 
 export function parsePost(postPath: string) {
   const abstractData = parsePostAbstract(postPath)
+  const detailData = parsePostContents(postPath)
 
-  return { ...abstractData }
+  return { ...abstractData, ...detailData }
 }
 
 export function parsePostAbstract(postPath: string) {
@@ -45,6 +51,18 @@ export function getPublicCategory(categoryPath: string) {
     .join(" ")
 }
 
-// export function parsePostDetail(postPath: string) {
+export function parsePostContents(postPath: string) {
+  const file = fs.readFileSync(postPath, "utf-8")
+  const { data, content } = matter(file)
+  const matterData = data as PostContents
+  const readingMinutes = Math.ceil(readingTime(content).minutes)
+  const dateCreated = `${dayjs(data.date).locale("ko").format("YYYY년 MM월 DD일")}`
 
-// }
+  return {
+    ...matterData,
+    date: `${data.date}`,
+    readingMinutes,
+    dateCreated,
+    content,
+  }
+}
