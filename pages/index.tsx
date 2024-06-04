@@ -1,13 +1,3 @@
-import { GetStaticProps } from "next"
-import { getAllPosts } from "@/lib/post.lib"
-
 export default function HomePage() {
-  return <div></div>
+  return <div>HomePage</div>
 }
-
-export const getStaticProps = (async () => {
-  getAllPosts()
-  return {
-    props: {},
-  }
-}) satisfies GetStaticProps
