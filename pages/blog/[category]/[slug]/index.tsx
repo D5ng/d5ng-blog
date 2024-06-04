@@ -1,4 +1,3 @@
-import React from "react"
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next"
 import { getPostDetail, getPostPaths, parsePostAbstract } from "@/lib/post.lib"
 import { serialize } from "next-mdx-remote/serialize"
