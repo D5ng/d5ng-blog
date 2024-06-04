@@ -3,7 +3,6 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next"
 import Link from "next/link"
 
 export default function CategoryPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
-  console.log(props.posts)
   return (
     <ul>
       {props.posts.map((post) => (
