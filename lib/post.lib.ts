@@ -1,7 +1,3 @@
-/**
- * ! 포스트 파일 가져오기.
- */
-
 import fs from "fs"
 import matter from "gray-matter"
 import readingTime from "reading-time"
