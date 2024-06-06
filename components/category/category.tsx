@@ -7,9 +7,11 @@ interface CategoryProps {
 
 export default function Category(props: CategoryProps) {
   return (
-    <ul>
+    <ul className="flex gap-x-4">
       {props.categoryList.map((category) => (
-        <Badge key={category}>{category}</Badge>
+        <Badge key={category} variant="outline" className="px-3 py-2">
+          {category}
+        </Badge>
       ))}
     </ul>
   )

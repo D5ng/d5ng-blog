@@ -20,10 +20,3 @@ export default function Header() {
     </header>
   )
 }
-
-/**
- * ! Header
- * ! 로고,
- * ! 다크모드, github
- * !
- */
