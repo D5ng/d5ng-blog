@@ -26,11 +26,40 @@ export const getStaticPaths = (async () => {
   }
 }) satisfies GetStaticPaths
 
+import remarkGfm from "remark-gfm"
+import remarkBreaks from "remark-breaks"
+// @ts-expect-error no types
+import remarkA11yEmoji from "@fec/remark-a11y-emoji"
+
+import rehypeSlug from "rehype-slug"
+import rehypePrism from "rehype-prism-plus"
+import rehypePrettyCode from "rehype-pretty-code"
+import rehypeAutolinkHeadings from "rehype-autolink-headings"
+
 export const getStaticProps = (async (context) => {
   const category = context.params!.category as string
   const slug = context.params!.slug as string
   const post = getPostDetail(category, slug)
-  const mdxSource = await serialize(post.content)
+
+  const mdxSource = await serialize(post.content, {
+    mdxOptions: {
+      remarkPlugins: [remarkGfm, remarkA11yEmoji, remarkBreaks],
+      rehypePlugins: [
+        rehypeSlug,
+        rehypePrism,
+        [rehypePrettyCode, { theme: { dark: "github-dark-dimmed", light: "github-light" } }],
+        [
+          rehypeAutolinkHeadings,
+          {
+            properties: {
+              className: ["anchor"],
+            },
+          },
+        ],
+      ],
+      format: "mdx",
+    },
+  })
 
   return {
     props: {
