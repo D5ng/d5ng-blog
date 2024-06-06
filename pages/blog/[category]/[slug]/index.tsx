@@ -5,7 +5,7 @@ import { MDXRemote } from "next-mdx-remote"
 
 export default function PostDetailPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <div>
+    <div className="prose bg-background text-foreground">
       <div>{props.title}</div>
       <div>{props.description}</div>
       <div>읽는 시간: {props.readingMinutes}분</div>
@@ -42,22 +42,10 @@ export const getStaticProps = (async (context) => {
   const post = getPostDetail(category, slug)
 
   const mdxSource = await serialize(post.content, {
+    scope: {},
     mdxOptions: {
       remarkPlugins: [remarkGfm, remarkA11yEmoji, remarkBreaks],
-      rehypePlugins: [
-        rehypeSlug,
-        rehypePrism,
-        [rehypePrettyCode, { theme: { dark: "github-dark-dimmed", light: "github-light" } }],
-        [
-          rehypeAutolinkHeadings,
-          {
-            properties: {
-              className: ["anchor"],
-            },
-          },
-        ],
-      ],
-      format: "mdx",
+      rehypePlugins: [[rehypePrettyCode, { theme: { dark: "github-dark-dimmed", light: "github-light" } }]],
     },
   })
 
