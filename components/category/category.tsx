@@ -1,17 +1,14 @@
-import CategoryItem from "@/components/category//category-item"
-import BadgeLink from "@/components/ui/badge-link"
+import CategoryList from "@/components/category/category-list"
 
-interface CategoryProps {
+interface Props {
   categoryList: string[]
 }
 
-export default function Category(props: CategoryProps) {
+export default function Category(props: Props) {
   return (
-    <ul className="flex gap-x-2">
-      <BadgeLink href="/">ALL</BadgeLink>
-      {props.categoryList.map((category) => (
-        <CategoryItem category={category} key={category} />
-      ))}
-    </ul>
+    <section className="flex justify-between items-center px-10">
+      <span className="font-medium">CATEGORIES</span>
+      <CategoryList categoryList={props.categoryList} />
+    </section>
   )
 }

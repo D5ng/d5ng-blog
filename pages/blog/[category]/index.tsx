@@ -1,16 +1,14 @@
+import Category from "@/components/category/category"
 import { getAllPosts, getCategoryList } from "@/lib/post.lib"
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next"
-import Link from "next/link"
+import Post from "@/components/post/post"
 
 export default function CategoryPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <ul>
-      {props.posts.map((post) => (
-        <li key={post.url}>
-          <Link href={post.url}>{post.title}</Link>
-        </li>
-      ))}
-    </ul>
+    <>
+      <Category categoryList={props.categoryList} />
+      <Post postList={props.postList} />
+    </>
   )
 }
 
@@ -25,12 +23,12 @@ export const getStaticPaths = (async () => {
 export const getStaticProps = (async (context) => {
   const categoryQuery = context.params!.category as string
   const categoryList = getCategoryList()
-  const posts = getAllPosts(categoryQuery)
+  const postList = getAllPosts(categoryQuery)
 
   return {
     props: {
       categoryList,
-      posts,
+      postList,
     },
   }
 }) satisfies GetStaticProps

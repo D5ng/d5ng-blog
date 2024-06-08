@@ -23,7 +23,9 @@ export default function App({ Component, pageProps }: AppProps) {
         `}</style>
       </>
       <Header />
-      <Component {...pageProps} />
+      <main className="mt-[50px]">
+        <Component {...pageProps} />
+      </main>
       <Footer />
     </ThemeProvider>
   )

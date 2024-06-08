@@ -1,24 +1,14 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next"
 import { getAllPosts, getCategoryList } from "@/lib/post.lib"
 import Category from "@/components/category/category"
-import PostItem from "@/components/post/post-item"
+import Post from "@/components/post/post"
 
 export default function BlogPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <main className="mt-[50px]">
-      <section className="flex justify-between items-center px-10">
-        <span className="font-medium">CATEGORIES</span>
-        <Category categoryList={props.categoryList} />
-      </section>
-
-      <section className="mt-[30px] px-10">
-        <ul className="grid grid-cols-3 gap-4">
-          {props.postList.map((post) => (
-            <PostItem post={post} key={post.url} />
-          ))}
-        </ul>
-      </section>
-    </main>
+    <>
+      <Category categoryList={props.categoryList} />
+      <Post postList={props.postList} />
+    </>
   )
 }
 
