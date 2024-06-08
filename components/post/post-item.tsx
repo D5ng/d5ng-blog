@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import dayjs from "dayjs"
 import { Post } from "@/lib/post.type"
 import { Badge } from "@/components/ui/badge"
@@ -9,19 +10,23 @@ interface PostItemProps {
 }
 
 export default function PostItem({ post }: PostItemProps) {
+  const month = MONTHS_EN[dayjs(post.date).month()]
+  const day = dayjs(post.date).day()
+  const year = dayjs(post.date).year()
+  const formatDate = `${month} ${day}, ${year}`
   return (
     <li key={post.url} className="px-10 py-12 border group">
       <div className="flex justify-between items-center">
-        <time className="text-sm">
-          {`${MONTHS_EN[dayjs(post.date).month()]} ${dayjs(post.date).day()} , ${dayjs(post.date).year()}`}
+        <time className="text-sm" dateTime={post.date}>
+          {formatDate}
         </time>
-        <Badge variant="outline" className="px-2 py-1 font-medium hover:bg-primary hover:text-primary-foreground">
+        <Badge variant="outline" className="px-2 py-1 font-medium">
           {post.publicCategory.toUpperCase()}
         </Badge>
       </div>
-      <div className="w-full h-[350px] mt-10">
+      <div className="w-full h-[350px] mt-10 relative">
         <Link href={post.url}>
-          <img src={post.thumbnail} alt="" className="w-full object-cover object-center block h-full" />
+          <Image src={post.thumbnail} alt="" className="w-full object-cover object-center block h-full" fill />
         </Link>
       </div>
 
