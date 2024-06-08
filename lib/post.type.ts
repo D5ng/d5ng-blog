@@ -3,16 +3,14 @@ export interface PostContents {
   date: string
   description: string
   thumbnail: string
+  author: string
+  profileImage: string
 }
 
-export interface Post {
-  date: string
+export interface Post extends PostContents {
   readingMinutes: number
   dateCreated: string
   content: string
-  title: string
-  description: string
-  thumbnail: string
   categoryPath: string
   url: string
   slug: string
