@@ -1,5 +1,6 @@
 import React from "react"
 import { Badge } from "../ui/badge"
+import CategoryItem from "./category-item"
 
 interface CategoryProps {
   categoryList: string[]
@@ -12,16 +13,7 @@ export default function Category(props: CategoryProps) {
         ALL
       </Badge>
       {props.categoryList.map((category) => (
-        <Badge
-          key={category}
-          variant="outline"
-          className="px-3.5 py-2 font-medium hover:bg-primary hover:text-primary-foreground"
-        >
-          {category
-            .split("")
-            .map((str, index) => (index === 0 ? str.toUpperCase() : str))
-            .join("")}
-        </Badge>
+        <CategoryItem category={category} key={category} />
       ))}
     </ul>
   )
