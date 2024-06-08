@@ -13,7 +13,7 @@ export default function Header() {
         <li className="border rounded-full overflow-hidden">
           <ModeToggle />
         </li>
-        <li className="px-4 py-1 rounded-full border w-fit flex justify-center items-center">
+        <li className="px-5 py-1.5 rounded-full border w-fit flex justify-center items-center">
           <Link href="/">Github</Link>
         </li>
       </ul>
