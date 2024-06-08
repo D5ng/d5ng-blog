@@ -14,7 +14,7 @@ export default function BlogPage(props: InferGetStaticPropsType<typeof getStatic
       <section className="mt-[30px] px-10">
         <ul className="grid grid-cols-3 gap-4">
           {props.postList.map((post) => (
-            <PostItem post={post} />
+            <PostItem post={post} key={post.url} />
           ))}
         </ul>
       </section>
