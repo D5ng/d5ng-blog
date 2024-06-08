@@ -1,4 +1,4 @@
-import { Badge } from "../ui/badge"
+import BadgeLink from "@/components/ui/badge-link"
 
 interface Props {
   category: string
@@ -10,9 +10,5 @@ export default function CategoryItem(props: Props) {
     .map((str, index) => (index === 0 ? str.toUpperCase() : str))
     .join("")
 
-  return (
-    <Badge variant="outline" className="px-3.5 py-2 font-medium hover:bg-primary hover:text-primary-foreground">
-      {categoryName}
-    </Badge>
-  )
+  return <BadgeLink href={`/blog/${props.category}`}>{categoryName}</BadgeLink>
 }

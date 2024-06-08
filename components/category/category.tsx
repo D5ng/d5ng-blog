@@ -1,6 +1,5 @@
-import React from "react"
-import { Badge } from "../ui/badge"
-import CategoryItem from "./category-item"
+import CategoryItem from "@/components/category//category-item"
+import BadgeLink from "@/components/ui/badge-link"
 
 interface CategoryProps {
   categoryList: string[]
@@ -9,9 +8,7 @@ interface CategoryProps {
 export default function Category(props: CategoryProps) {
   return (
     <ul className="flex gap-x-2">
-      <Badge variant="outline" className="px-3.5 py-2 font-medium hover:bg-primary hover:text-primary-foreground">
-        ALL
-      </Badge>
+      <BadgeLink href="/">ALL</BadgeLink>
       {props.categoryList.map((category) => (
         <CategoryItem category={category} key={category} />
       ))}
