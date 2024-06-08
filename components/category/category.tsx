@@ -7,7 +7,10 @@ interface CategoryProps {
 
 export default function Category(props: CategoryProps) {
   return (
-    <ul className="flex gap-x-4">
+    <ul className="flex gap-x-2">
+      <Badge variant="outline" className="px-3.5 py-2 font-medium hover:bg-primary hover:text-primary-foreground">
+        ALL
+      </Badge>
       {props.categoryList.map((category) => (
         <Badge
           key={category}
