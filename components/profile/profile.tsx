@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
 export default function Profile() {
   return (
-    <Avatar className="not-prose ring-2 ring-inset ring-neutral-300">
+    <Avatar className="not-prose bg-neutral-200 ring-2 ring-white">
       <AvatarImage src="/profile.png" alt="DongHyun Lee" />
       <AvatarFallback>DH</AvatarFallback>
     </Avatar>
