@@ -1,11 +1,20 @@
+import { ArrowUpRight } from "lucide-react"
+import Link from "next/link"
+
 export default function Footer() {
   return (
     <footer className="mt-20">
       <div className="border-t flex justify-between">
         <div className="relative flex flex-col border-r px-5 sm:px-10 py-12 flex-2 w-3/12 [&_span+span]:mt-1">
           <span className="font-medium [&+span]:mt-2">Info</span>
-          <span className="text-sm">Github</span>
-          <span className="text-sm">Porfoilo</span>
+          <Link href="https://github.com/D5ng" target="_blank" className="text-sm flex items-center gap-x-1">
+            Github
+            <ArrowUpRight width="16" height="16" />
+          </Link>
+          <Link href="/" target="_blank" className="text-sm flex items-center gap-x-1">
+            Porfoilo
+            <ArrowUpRight width="16" height="16" />
+          </Link>
         </div>
         <div className="relative flex flex-col border-r px-5 sm:px-10 py-12 w-4/12"></div>
         <div className="flex flex-col px-5 sm:px-10 py-12 w-5/12 [&_span+span]:mt-1">

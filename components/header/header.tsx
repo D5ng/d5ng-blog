@@ -1,6 +1,7 @@
 import Link from "next/link"
 import React from "react"
 import { ModeToggle } from "../darkmode/darkmode"
+import { ArrowUpRight } from "lucide-react"
 
 export default function Header() {
   return (
@@ -13,8 +14,11 @@ export default function Header() {
         <li className="border rounded-full overflow-hidden">
           <ModeToggle />
         </li>
-        <li className="px-5 py-1.5 rounded-full border w-fit flex justify-center items-center">
-          <Link href="/">Github</Link>
+        <li className="px-5 py-1.5 rounded-full border w-fit flex justify-center items-center hover:bg-primary hover:text-primary-foreground transition-colors">
+          <Link href="https://github.com/D5ng" target="_blank" className="flex items-center gap-x-1">
+            Github
+            <ArrowUpRight width="16" height="16" />
+          </Link>
         </li>
       </ul>
     </header>
