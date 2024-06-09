@@ -7,7 +7,7 @@ interface Props extends PropsWithChildren<LinkProps> {
 
 export default function BadgeLink(props: Props) {
   const defaultClass =
-    "inline-flex items-center rounded-full border px-3.5 py-2 text-xs transition-colors text-foreground font-medium hover:bg-primary hover:text-primary-foreground"
+    "inline-flex text-nowrap items-center rounded-full border px-2 py-1 sm:px-3.5 sm:py-2 text-xs transition-colors text-foreground font-medium hover:bg-primary hover:text-primary-foreground"
   return (
     <Link href={props.href} className={`${defaultClass} ${props.className}`}>
       {props.children}

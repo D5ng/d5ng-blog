@@ -8,7 +8,7 @@ interface Props {
 
 export default function Post(props: Props) {
   return (
-    <section className="mt-[30px] px-10">
+    <section className="mt-[30px] px-5 sm:px-10">
       <PostList postList={props.postList} />
     </section>
   )

@@ -11,10 +11,12 @@ export default function CategoryList(props: Props) {
   const activeClass = router.pathname === "/blog" ? "bg-primary text-primary-foreground" : ""
 
   return (
-    <ul className="flex gap-x-2">
-      <BadgeLink href="/blog" className={activeClass}>
-        ALL
-      </BadgeLink>
+    <ul className="flex gap-x-2 overflow-x-scroll">
+      <li>
+        <BadgeLink href="/blog" className={activeClass}>
+          ALL
+        </BadgeLink>
+      </li>
       {props.categoryList.map((category) => (
         <CategoryItem category={category} key={category} />
       ))}

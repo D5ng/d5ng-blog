@@ -15,7 +15,7 @@ export default function PostItem({ post }: PostItemProps) {
   const year = dayjs(post.date).year()
   const formatDate = `${month} ${day}, ${year}`
   return (
-    <li key={post.url} className="px-10 py-12 border group">
+    <li key={post.url} className="px-10 py-12 border group md:px-[2.93vw] lg:py-[2.963vw] ">
       <div className="flex justify-between items-center">
         <time className="text-sm" dateTime={post.date}>
           {formatDate}
@@ -24,7 +24,7 @@ export default function PostItem({ post }: PostItemProps) {
           {post.publicCategory.toUpperCase()}
         </Badge>
       </div>
-      <div className="w-full h-[350px] mt-10 relative">
+      <div className="w-full mt-5 sm:mt-10 relative h-[69.444vw] min-h-[250px] sm:h-[29.297vw] lg:h-[21.605vw] lg:h-max-[400px]">
         <Link href={post.url}>
           <Image src={post.thumbnail} alt="" className="w-full object-cover object-center block h-full" fill />
         </Link>
@@ -37,7 +37,7 @@ export default function PostItem({ post }: PostItemProps) {
         </Link>
       </div>
 
-      <div className="mt-10">
+      <div className="mt-5 sm:mt-10">
         <Link href={post.url} className="text-xs font-medium border-b">
           READ MORE
         </Link>

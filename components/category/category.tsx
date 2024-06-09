@@ -6,8 +6,8 @@ interface Props {
 
 export default function Category(props: Props) {
   return (
-    <section className="flex justify-between items-center px-10">
-      <span className="font-medium">CATEGORIES</span>
+    <section className="flex justify-between items-center px-5 sm:px-10">
+      <span className="font-medium hidden sm:block">CATEGORIES</span>
       <CategoryList categoryList={props.categoryList} />
     </section>
   )
