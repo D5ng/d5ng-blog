@@ -11,7 +11,7 @@ export default function PostDetailProfile(props: Pick<Post, "author" | "readingM
   const formatDate = `${month} ${day}, ${year}`
 
   return (
-    <div className="flex items-center gap-x-3 border-t border-b border-neutral-200 px-2 py-4 dark:border-neutral-700">
+    <div className="flex items-center gap-x-3 px-2 pb-6">
       <Profile />
       <div className="flex flex-col text-sm gap-y-0.5">
         <div className="flex text-neutral-600 dark:text-white">

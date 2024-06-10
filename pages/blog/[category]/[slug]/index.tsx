@@ -13,20 +13,20 @@ import rehypePrettyCode from "rehype-pretty-code"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
 // import rehypePrism from "rehype-prism-plus"
 import { Badge } from "@/components/ui/badge"
-import PostDetailProfile from "@/components/post/post-detail-profile"
 import PostDetailHeader from "@/components/post/post-detail-header"
+import Giscus from "@/components/giscus"
 
 export default function PostDetailPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <section className="m-auto w-[90%] prose prose-neutral dark:prose-invert max-w-[680px]">
       <Badge className="mb-4 px-2.5 py-1">{props.categoryPath.toUpperCase()}</Badge>
-      <PostDetailHeader title={props.title} description={props.description} thumbnail={props.thumbnail} />
-      <PostDetailProfile author={props.author} readingMinutes={props.readingMinutes} date={props.date} />
+      <PostDetailHeader {...props} />
 
       <div className="relative w-full h-[63.333vw] max-h-[400px] lg:h-[39.063vw] lg:max-h-[450px] not-prose mt-10">
         <Image src={props.thumbnail} fill alt="thumnnail" objectFit="cover" objectPosition="center" />
       </div>
       <MDXRemote {...props.mdxSource} />
+      <Giscus />
     </section>
   )
 }
