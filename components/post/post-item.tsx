@@ -3,7 +3,7 @@ import Image from "next/image"
 import dayjs from "dayjs"
 import { Post } from "@/lib/post.type"
 import { Badge } from "@/components/ui/badge"
-import { MONTHS_EN } from "@/utils/format"
+import { MONTHS_EN } from "@/utils/index.utils"
 
 interface PostItemProps {
   post: Post
