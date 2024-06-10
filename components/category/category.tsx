@@ -1,18 +1,14 @@
-import React from "react"
-import { Badge } from "../ui/badge"
+import CategoryList from "@/components/category/category-list"
 
-interface CategoryProps {
+interface Props {
   categoryList: string[]
 }
 
-export default function Category(props: CategoryProps) {
+export default function Category(props: Props) {
   return (
-    <ul className="flex gap-x-4">
-      {props.categoryList.map((category) => (
-        <Badge key={category} variant="outline" className="px-3 py-2">
-          {category}
-        </Badge>
-      ))}
-    </ul>
+    <section className="flex justify-between items-center px-5 sm:px-10">
+      <span className="font-medium hidden sm:block">CATEGORIES</span>
+      <CategoryList categoryList={props.categoryList} />
+    </section>
   )
 }

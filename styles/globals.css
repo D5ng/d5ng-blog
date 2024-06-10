@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.text-overflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -68,8 +76,35 @@
 
 @layer base {
   * {
+    font-family: "__Poppins_f67023", "__Poppins_Fallback_f67023", "Pretendard";
     @apply border-border;
   }
+
+  html {
+    font-size: 3.3vw;
+  }
+
+  @media (min-width: 640px) {
+    html {
+      font-size: 1.563vw;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    /* html {
+      font-size: 1.2vw;
+    } */
+    html {
+      font-size: 0.952vw;
+    }
+  }
+
+  /* @media (min-width: 1280px) {
+    html {
+      font-size: 0.952vw;
+    }
+  } */
+
   body {
     @apply bg-background text-foreground;
   }
