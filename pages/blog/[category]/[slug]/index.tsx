@@ -15,6 +15,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import { Badge } from "@/components/ui/badge"
 import PostDetailProfile from "@/components/post/post-detail-profile"
 import PostDetailHeader from "@/components/post/post-detail-header"
+import Giscus from "@/components/giscus"
 
 export default function PostDetailPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
@@ -27,6 +28,7 @@ export default function PostDetailPage(props: InferGetStaticPropsType<typeof get
         <Image src={props.thumbnail} fill alt="thumnnail" objectFit="cover" objectPosition="center" />
       </div>
       <MDXRemote {...props.mdxSource} />
+      <Giscus />
     </section>
   )
 }
