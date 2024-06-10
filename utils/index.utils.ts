@@ -1,3 +1,5 @@
+import dayjs from "dayjs"
+
 export const MONTHS_EN = [
   "January",
   "February",
@@ -31,4 +33,12 @@ export function getThemeMode(theme: "dark" | "light" | "system") {
           icon: "#171717",
         },
       }
+}
+
+export function formatDate(date: string) {
+  const month = MONTHS_EN[dayjs(date).month()]
+  const day = dayjs(date).day()
+  const year = dayjs(date).year()
+
+  return `${month} ${day}, ${year}`
 }
