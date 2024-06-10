@@ -2,7 +2,7 @@ import React from "react"
 import { ClapButton, LikeButton, Provider } from "@lyket/react"
 import { Post } from "@/lib/post.type"
 import { useTheme } from "next-themes"
-import { getThemeMode } from "@/lib/utils"
+import { getThemeMode } from "@/utils/index.utils"
 
 export default function PostDetailReaction(props: Pick<Post, "slug">) {
   const { theme } = useTheme()

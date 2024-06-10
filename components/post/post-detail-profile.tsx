@@ -2,7 +2,7 @@ import React from "react"
 import Profile from "../profile/profile"
 import { Post } from "@/lib/post.type"
 import dayjs from "dayjs"
-import { MONTHS_EN } from "@/utils/format"
+import { MONTHS_EN } from "@/utils/index.utils"
 
 export default function PostDetailProfile(props: Pick<Post, "author" | "readingMinutes" | "date">) {
   const month = MONTHS_EN[dayjs(props.date).month()]
