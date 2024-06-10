@@ -6,7 +6,7 @@ import { useTheme } from "next-themes"
 export default function PostDetailReaction(props: Pick<Post, "slug">) {
   const { theme } = useTheme()
   const themeMode =
-    theme === "dark"
+    theme === "dark" || theme === "system"
       ? {
           text: "#FAFAFA",
           background: "#0A0A0A",
