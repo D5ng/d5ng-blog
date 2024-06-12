@@ -1,9 +1,9 @@
 import Link from "next/link"
-import Image from "next/image"
 import dayjs from "dayjs"
 import { Post } from "@/lib/post.type"
 import { Badge } from "@/components/ui/badge"
-import { MONTHS_EN } from "@/utils/format"
+import { MONTHS_EN } from "@/utils/index.utils"
+import Scene from "../three/scene"
 
 interface PostItemProps {
   post: Post
@@ -26,7 +26,7 @@ export default function PostItem({ post }: PostItemProps) {
       </div>
       <div className="w-full mt-5 sm:mt-10 relative h-[69.444vw] min-h-[250px] sm:h-[29.297vw] lg:h-[21.605vw] lg:h-max-[400px]">
         <Link href={post.url}>
-          <Image src={post.thumbnail} alt="" className="w-full object-cover object-center block h-full" fill />
+          <Scene image={post.thumbnail} />
         </Link>
       </div>
 

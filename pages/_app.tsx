@@ -1,10 +1,10 @@
-import Header from "@/components/header/header"
+import Header from "@/components/common/header/header"
 import { ThemeProvider } from "@/components/theme/theme-provider"
 import type { AppProps } from "next/app"
 import { Poppins } from "next/font/google"
 
 import "@/styles/globals.css"
-import Footer from "@/components/footer/footer"
+import Footer from "@/components/common/footer/footer"
 
 const poppins = Poppins({
   weight: ["400", "500", "700"],

@@ -1,6 +1,6 @@
 import Link from "next/link"
 import React from "react"
-import { ModeToggle } from "../darkmode/darkmode"
+import { ModeToggle } from "../../darkmode/darkmode"
 import { ArrowUpRight } from "lucide-react"
 
 export default function Header() {
