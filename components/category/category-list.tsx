@@ -13,7 +13,7 @@ export default function CategoryList(props: Props) {
   return (
     <ul className="flex gap-x-2 overflow-x-scroll">
       <li>
-        <BadgeLink href="/blog" className={activeClass}>
+        <BadgeLink href="/" className={activeClass}>
           ALL
         </BadgeLink>
       </li>
