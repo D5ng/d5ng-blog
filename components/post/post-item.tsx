@@ -1,8 +1,7 @@
 import Link from "next/link"
-import dayjs from "dayjs"
 import { Post } from "@/lib/post.type"
 import { Badge } from "@/components/ui/badge"
-import { MONTHS_EN, formatDate } from "@/utils/index.utils"
+import { formatDate } from "@/utils/index.utils"
 import Scene from "../three/scene"
 
 interface Props {
