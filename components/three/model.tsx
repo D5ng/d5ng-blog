@@ -22,7 +22,7 @@ export default function Model(props: { image: string }) {
     uTexture: { value: texture },
     uTime: { value: 0 },
     uAmplitude: { value: 0.15 },
-    uWaveLength: { value: 5 },
+    uWaveLength: { value: 7 },
   })
 
   const scaleRatio = viewport.width / viewport.height
@@ -35,7 +35,7 @@ export default function Model(props: { image: string }) {
 
     plane.current!.material.uniforms.uTime.value += 0.04
     plane.current!.material.uniforms.uAmplitude.value = 0.15
-    plane.current!.material.uniforms.uWaveLength.value = 5
+    plane.current!.material.uniforms.uWaveLength.value = 7
   })
 
   return (

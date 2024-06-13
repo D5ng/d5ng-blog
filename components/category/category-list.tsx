@@ -8,12 +8,12 @@ interface Props {
 
 export default function CategoryList(props: Props) {
   const router = useRouter()
-  const activeClass = router.pathname === "/blog" ? "bg-primary text-primary-foreground" : ""
+  const activeClass = router.pathname === "/" ? "bg-primary text-primary-foreground" : ""
 
   return (
     <ul className="flex gap-x-2 overflow-x-scroll">
       <li>
-        <BadgeLink href="/blog" className={activeClass}>
+        <BadgeLink href="/" className={activeClass}>
           ALL
         </BadgeLink>
       </li>
