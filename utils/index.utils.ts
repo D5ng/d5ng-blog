@@ -36,9 +36,9 @@ export function getThemeMode(theme: "dark" | "light" | "system") {
 }
 
 export function formatDate(date: string) {
-  const month = MONTHS_EN[dayjs(date).month()]
-  const day = dayjs(date).day()
-  const year = dayjs(date).year()
+  const transformedMonth = MONTHS_EN[dayjs(date).month()]
+  const transformedDate = dayjs(date).date()
+  const transformedyear = dayjs(date).year()
 
-  return `${month} ${day}, ${year}`
+  return `${transformedMonth} ${transformedDate}, ${transformedyear}`
 }

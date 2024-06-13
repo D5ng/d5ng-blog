@@ -2,23 +2,20 @@ import Link from "next/link"
 import dayjs from "dayjs"
 import { Post } from "@/lib/post.type"
 import { Badge } from "@/components/ui/badge"
-import { MONTHS_EN } from "@/utils/index.utils"
+import { MONTHS_EN, formatDate } from "@/utils/index.utils"
 import Scene from "../three/scene"
 
-interface PostItemProps {
+interface Props {
   post: Post
 }
 
-export default function PostItem({ post }: PostItemProps) {
-  const month = MONTHS_EN[dayjs(post.date).month()]
-  const day = dayjs(post.date).day()
-  const year = dayjs(post.date).year()
-  const formatDate = `${month} ${day}, ${year}`
+export default function PostItem({ post }: Props) {
+  const date = formatDate(post.date)
   return (
     <li key={post.url} className="px-10 py-12 border group md:px-[2.93vw] lg:py-[2.963vw] ">
       <div className="flex justify-between items-center">
         <time className="text-sm" dateTime={post.date}>
-          {formatDate}
+          {date}
         </time>
         <Badge variant="outline" className="px-2 py-1 font-medium">
           {post.publicCategory.toUpperCase()}
