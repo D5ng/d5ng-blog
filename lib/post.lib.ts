@@ -21,7 +21,9 @@ export function getPostPaths(category?: string) {
 export function getAllPosts(category?: string) {
   const postPaths = getPostPaths(category)
   const postList = postPaths.map((postPath) => parsePost(postPath))
-  return postList
+  const sortedPosts = postList.sort((a, b) => +new Date(b.date) - +new Date(a.date))
+
+  return sortedPosts
 }
 
 export function parsePost(postPath: string) {
@@ -67,4 +69,9 @@ export function getPostDetail(category: string, slug: string) {
   const filePath = `${POSTS_DIRECTORY}/${category}/${slug}/content.mdx`
   const detail = parsePost(filePath)
   return detail
+}
+
+export function getSortedPost(category?: string) {
+  const posts = getAllPosts(category)
+  console.log(posts)
 }
