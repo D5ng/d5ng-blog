@@ -26,7 +26,7 @@
 
 ### 소개
 
-[사이트 바로가기]: https://d5ng-blog.vercel.app/
+[블로그 구경하러가기](https://d5ng-blog.vercel.app/)
 
 2021-2023 유행을 많이했었던 **Grid Layout 디자인을 참고해 고급진 갤러리 형태의 블로그**를 만들었어요. 저는 디자이너가 아니기 때문에 ShadcnUI와 TailwindCSS를 사용해 다크모드와 마크다운 스타일링을 빠르게 개발했어요. 앞으로 TIL(Today I Learned)와 많이 알려지지않은 개발적 이슈나 원리를 여기에 포스팅 할 예정입니다 🙂
 
