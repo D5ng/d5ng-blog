@@ -14,14 +14,14 @@ export default function Model(props: { image: string }) {
   const texture = useTexture(props.image)
   const scale = useAspect(texture.image.width, texture.image.height, 0.3)
 
-  scale[0] = viewport.width - 0.7
-  scale[1] = viewport.height - 0.7
+  scale[0] = viewport.width - 0.5
+  scale[1] = viewport.height - 0.5
 
   const uniforms = useRef({
     vUvScale: { value: new THREE.Vector2(0, 0) },
     uTexture: { value: texture },
     uTime: { value: 0 },
-    uAmplitude: { value: 0.15 },
+    uAmplitude: { value: 0.25 },
     uWaveLength: { value: 7 },
   })
 
@@ -33,8 +33,8 @@ export default function Model(props: { image: string }) {
       ? plane.current!.material.uniforms.vUvScale.value.set(scaleRatio / aspectRatio, 1)
       : plane.current!.material.uniforms.vUvScale.value.set(1, aspectRatio / scaleRatio)
 
-    plane.current!.material.uniforms.uTime.value += 0.04
-    plane.current!.material.uniforms.uAmplitude.value = 0.15
+    plane.current!.material.uniforms.uTime.value += 0.02
+    plane.current!.material.uniforms.uAmplitude.value = 0.2
     plane.current!.material.uniforms.uWaveLength.value = 7
   })
 
