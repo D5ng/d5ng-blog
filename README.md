@@ -47,3 +47,5 @@
 - 부드러운 스크롤
 - 페이지네이션
 - TOC(Table of Contents)
+- SEO 향상을 위한 메타 데이터
+- TIL 페이지 만들기
