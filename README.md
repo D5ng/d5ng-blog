@@ -1,7 +1,5 @@
 ![header](https://capsule-render.vercel.app/api?type=Venom&color=auto&height=300&section=header&text=D5ngBlog&fontSize=90&fontColor=fff)
 
-# D5ng Blog
-
 ### 기술 스택
 
 <span>
@@ -26,11 +24,15 @@
   <img src="https://img.shields.io/badge/ThreeJs-black?style=for-the-badge&logo=three.js&logoColor=white">
 </span>
 
----
+### 소개
+
+[사이트 바로가기]: https://d5ng-blog.vercel.app/
 
 2021-2023 유행을 많이했었던 **Grid Layout 디자인을 참고해 고급진 갤러리 형태의 블로그**를 만들었어요. 저는 디자이너가 아니기 때문에 ShadcnUI와 TailwindCSS를 사용해 다크모드와 마크다운 스타일링을 빠르게 개발했어요. 앞으로 TIL(Today I Learned)와 많이 알려지지않은 개발적 이슈나 원리를 여기에 포스팅 할 예정입니다 🙂
 
 > 주관적지만 이 사이트를 본 여러분들도 미술관을 연상케하는 고급진 갤러릴 형태가 느껴졌으면 합니다
+
+![alt text](image.png)
 
 ### 블로그를 만든 이유.
 
