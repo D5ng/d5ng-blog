@@ -14,10 +14,8 @@ export default function CategoryItem(props: Props) {
     .join("")
 
   return (
-    <li>
-      <BadgeLink href={`/${props.category}`} className={activeClass}>
-        {categoryName}
-      </BadgeLink>
-    </li>
+    <BadgeLink href={`/${props.category}`} className={activeClass}>
+      {categoryName}
+    </BadgeLink>
   )
 }
