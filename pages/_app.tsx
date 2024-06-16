@@ -5,6 +5,7 @@ import { Poppins } from "next/font/google"
 
 import "@/styles/globals.css"
 import Footer from "@/components/common/footer/footer"
+import SmoothProvider from "@/components/smooth"
 
 const poppins = Poppins({
   weight: ["400", "500", "700"],
@@ -22,11 +23,13 @@ export default function App({ Component, pageProps }: AppProps) {
           }
         `}</style>
       </>
-      <Header />
-      <main className="mt-[50px]">
-        <Component {...pageProps} />
-      </main>
-      <Footer />
+      <SmoothProvider>
+        <Header />
+        <main className="mt-[50px]">
+          <Component {...pageProps} />
+        </main>
+        <Footer />
+      </SmoothProvider>
     </ThemeProvider>
   )
 }
