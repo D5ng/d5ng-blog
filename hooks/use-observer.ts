@@ -14,7 +14,9 @@ export default function useObserver(onIntersect: Callback, elements: HTMLElement
   )
 
   useEffect(() => {
-    const observer = new IntersectionObserver(callback)
+    const observer = new IntersectionObserver(callback, { threshold: 0.4, rootMargin: "-80px 0px 0px 0px" })
     elements.map((element) => observer.observe(element))
+
+    return () => observer.disconnect()
   }, [callback, elements])
 }
