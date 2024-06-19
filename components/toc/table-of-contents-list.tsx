@@ -20,10 +20,21 @@ export default function TableOfContentsList(props: Props) {
     setHeadingElements(headingElements)
   }, [])
 
+  const handleScrollTo = (id: string) => {
+    const element = headingElements.find((element) => element.id === id)!
+    window.scrollTo({ top: element.offsetTop, behavior: "smooth" })
+  }
+
   return (
     <ul>
       {props.tocList.map((toc, index) => (
-        <TableOfContentsItem key={toc.text} toc={toc} currentId={currentId} id={headingElements[index]?.id} />
+        <TableOfContentsItem
+          key={toc.text}
+          toc={toc}
+          currentId={currentId}
+          id={headingElements[index]?.id}
+          handleScrollTo={handleScrollTo}
+        />
       ))}
     </ul>
   )
