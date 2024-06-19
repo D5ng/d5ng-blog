@@ -41,6 +41,7 @@ export const getStaticProps = (async (context) => {
   const category = context.params!.category as string
   const slug = context.params!.slug as string
   const post = getPostDetail(category, slug)
+  const tocList = parseToc(post.content)
 
   const mdxSource = await serialize(post.content, {
     scope: {},
@@ -60,8 +61,6 @@ export const getStaticProps = (async (context) => {
       ],
     },
   })
-
-  const tocList = parseToc(post.content)
 
   return {
     props: {

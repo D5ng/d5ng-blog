@@ -22,8 +22,8 @@ export default function TableOfContentsList(props: Props) {
 
   return (
     <ul>
-      {props.tocList.map((toc) => (
-        <TableOfContentsItem key={toc.text} toc={toc} currentId={currentId} />
+      {props.tocList.map((toc, index) => (
+        <TableOfContentsItem key={toc.text} toc={toc} currentId={currentId} id={headingElements[index]?.id} />
       ))}
     </ul>
   )
