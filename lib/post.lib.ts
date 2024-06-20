@@ -4,7 +4,7 @@ import readingTime from "reading-time"
 import dayjs from "dayjs"
 import { sync } from "glob"
 import { BASE_PATH, POSTS_DIRECTORY } from "../config"
-import { PostContents } from "./post.type"
+import { PostContents, Toc } from "./post.type"
 
 export function getCategoryList() {
   const categoryPaths = sync(`${POSTS_DIRECTORY}/*`)
@@ -71,7 +71,23 @@ export function getPostDetail(category: string, slug: string) {
   return detail
 }
 
-export function getSortedPost(category?: string) {
-  const posts = getAllPosts(category)
-  console.log(posts)
+export const parseToc = (content: string): Toc[] => {
+  const regex = /^(##|###) (.*$)/gim
+  const headingList = content.match(regex)
+
+  return (
+    headingList?.map((heading: string) => ({
+      text: heading.replace("##", "").replace("#", ""),
+      link:
+        "#" +
+        heading
+          .replace("# ", "")
+          .replace("#", "")
+          .replace(/[\[\]:!@#$/%^&*()+=,.]/g, "")
+          .replace(/ /g, "-")
+          .toLowerCase()
+          .replace("?", ""),
+      indent: (heading.match(/#/g)?.length || 2) - 2,
+    })) || []
+  )
 }
