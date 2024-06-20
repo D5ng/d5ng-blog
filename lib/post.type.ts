@@ -16,3 +16,9 @@ export interface Post extends PostContents {
   slug: string
   publicCategory: string
 }
+
+export interface Toc {
+  text: string
+  link: string
+  indent: number
+}
