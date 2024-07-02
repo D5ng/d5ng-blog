@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Post } from "@/lib/post.type"
 import { Badge } from "@/components/ui/badge"
-import { formatDate } from "@/utils/index.utils"
+import { formatDate, transformedCategory } from "@/utils/index.utils"
 import Scene from "../three/scene"
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
 
 export default function PostItem({ post }: Props) {
   const date = formatDate(post.date)
+  const category = transformedCategory(post.publicCategory)
   return (
     <li key={post.url} className="px-10 py-12 border group md:px-[2.93vw] lg:py-[2.963vw] ">
       <div className="flex justify-between items-center">
@@ -17,7 +18,7 @@ export default function PostItem({ post }: Props) {
           {date}
         </time>
         <Badge variant="outline" className="px-2 py-1 font-medium">
-          {post.publicCategory.toUpperCase()}
+          {category}
         </Badge>
       </div>
       <div className="w-full mt-5 sm:mt-10 relative h-[69.444vw] min-h-[250px] sm:h-[29.297vw] lg:h-[21.605vw] lg:h-max-[400px]">
