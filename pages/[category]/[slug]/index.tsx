@@ -14,13 +14,16 @@ import PostDetailHeader from "@/components/post/post-detail-header"
 import Giscus from "@/components/giscus"
 import PostDetailBody from "@/components/post/post-detail-body"
 import TableOfContents from "@/components/toc/table-of-contents"
+import useResize from "@/hooks/use-resize"
 
 export default function PostDetailPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
+  const innerWidth = useResize()
+
   return (
     <section className="relative m-auto w-[90%] prose prose-neutral dark:prose-invert max-w-[680px] min-[1600px]:max-w-[800px]">
       <PostDetailHeader {...props} />
       <PostDetailBody {...props.mdxSource} />
-      <TableOfContents tocList={props.tocList} />
+      {innerWidth >= 1024 && <TableOfContents tocList={props.tocList} />}
       <Giscus />
     </section>
   )
