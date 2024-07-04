@@ -12,7 +12,7 @@ export default function PostItem({ post }: Props) {
   const date = formatDate(post.date)
   const category = transformedCategory(post.publicCategory)
   return (
-    <li key={post.url} className="px-10 py-12 border group md:px-[2.93vw] lg:py-[2.963vw] ">
+    <li key={post.url} className="px-6 py-8 border group md:px-[2.93vw] lg:py-[2.963vw] ">
       <div className="flex justify-between items-center">
         <time className="text-sm" dateTime={post.date}>
           {date}
