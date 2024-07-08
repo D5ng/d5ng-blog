@@ -16,7 +16,7 @@ export const MONTHS_EN = [
 ]
 
 export function getThemeMode(theme: "dark" | "light" | "system") {
-  return theme === "dark" || theme === "system"
+  return theme === "dark"
     ? {
         colors: {
           text: "#FAFAFA",
