@@ -10,7 +10,6 @@ export default function CategoryItem(props: Props) {
   const router = useRouter()
   const category = transformedCategory(props.category)
   const activeClass = router.query.category === props.category ? "bg-primary text-primary-foreground" : ""
-  console.log(props.category)
 
   return (
     <BadgeLink href={`/${props.category}`} className={activeClass}>
