@@ -1,14 +1,16 @@
-import { Post } from "@/lib/post.type"
 import React from "react"
+import Image from "next/image"
+import { Post } from "@/lib/post.type"
 import PostDetailProfile from "./post-detail-profile"
 import PostDetailReaction from "./post-detail-reaction"
-import Image from "next/image"
 import { Badge } from "../ui/badge"
+import { transformedCategory } from "@/utils/category.utils"
 
 export default function PostDetailHeader(props: Post) {
+  const category = transformedCategory(props.publicCategory)
   return (
     <>
-      <Badge className="mb-4 px-2.5 py-1">{props.categoryPath.toUpperCase()}</Badge>
+      <Badge className="mb-4 px-2.5 py-1">{category}</Badge>
       <h1>{props.title}</h1>
       <p className="text-neutral-500">{props.description}</p>
       <PostDetailProfile author={props.author} readingMinutes={props.readingMinutes} date={props.date} />

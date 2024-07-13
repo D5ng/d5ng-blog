@@ -1,4 +1,5 @@
 import BadgeLink from "@/components/ui/badge-link"
+import { transformedCategory } from "@/utils/category.utils"
 import { useRouter } from "next/router"
 
 interface Props {
@@ -7,15 +8,13 @@ interface Props {
 
 export default function CategoryItem(props: Props) {
   const router = useRouter()
+  const category = transformedCategory(props.category)
   const activeClass = router.query.category === props.category ? "bg-primary text-primary-foreground" : ""
-  const categoryName = props.category
-    .split("")
-    .map((str, index) => (index === 0 ? str.toUpperCase() : str))
-    .join("")
+  console.log(props.category)
 
   return (
     <BadgeLink href={`/${props.category}`} className={activeClass}>
-      {categoryName}
+      {category}
     </BadgeLink>
   )
 }
