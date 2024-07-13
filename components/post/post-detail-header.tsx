@@ -15,9 +15,19 @@ export default function PostDetailHeader(props: Post) {
       <p className="text-neutral-500">{props.description}</p>
       <PostDetailProfile author={props.author} readingMinutes={props.readingMinutes} date={props.date} />
       <PostDetailReaction slug={props.slug} />
-      <div className="relative w-full h-[63.333vw] max-h-[400px] lg:h-[39.063vw] lg:max-h-[450px] not-prose mt-10">
-        <Image src={props.thumbnail} fill alt="thumnnail" objectFit="cover" objectPosition="center" />
-      </div>
+      <figure>
+        <div className="relative w-full h-[63.333vw] max-h-[400px] lg:h-[39.063vw] lg:max-h-[500px] not-prose mt-10">
+          <Image src={props.thumbnail} fill alt="thumnnail" objectFit="cover" objectPosition="center" />
+        </div>
+        <figcaption>
+          <a
+            href="https://kr.freepik.com/free-vector/hwalyeohan-3d-moyang-budong-baegyeong_13295354.htm#fromView=search&page=1&position=21&uuid=5ac311bc-708e-41ec-88bf-fc5f67745a0e"
+            target="_blank"
+          >
+            작가 pikisuperstar 출처 Freepik
+          </a>
+        </figcaption>
+      </figure>
     </>
   )
 }
