@@ -8,7 +8,7 @@ import { PostContents, Toc } from "./post.type"
 
 export function getCategoryList() {
   const categoryPaths = sync(`${POSTS_DIRECTORY}/*`)
-  const category = categoryPaths.map((path) => path.split("/").slice(-1)?.[0])
+  const category = categoryPaths.map((path) => getPublicCategory(path.split("/").slice(-1)?.[0]))
   return category
 }
 
