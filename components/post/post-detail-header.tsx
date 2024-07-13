@@ -15,9 +15,16 @@ export default function PostDetailHeader(props: Post) {
       <p className="text-neutral-500">{props.description}</p>
       <PostDetailProfile author={props.author} readingMinutes={props.readingMinutes} date={props.date} />
       <PostDetailReaction slug={props.slug} />
-      <div className="relative w-full h-[63.333vw] max-h-[400px] lg:h-[39.063vw] lg:max-h-[450px] not-prose mt-10">
-        <Image src={props.thumbnail} fill alt="thumnnail" objectFit="cover" objectPosition="center" />
-      </div>
+      <figure className="relative w-full h-[63.333vw] max-h-[400px] lg:h-[39.063vw] lg:max-h-[500px] not-prose mt-10 ">
+        <Image
+          src={props.thumbnail}
+          fill
+          alt="thumnnail"
+          objectFit="cover"
+          objectPosition="center"
+          className="object-cover object-center"
+        />
+      </figure>
     </>
   )
 }
