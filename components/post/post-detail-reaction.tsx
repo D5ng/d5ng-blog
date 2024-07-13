@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { ClapButton, LikeButton, Provider } from "@lyket/react"
 import { Post } from "@/lib/post.type"
 import { useTheme } from "next-themes"
-import { getThemeMode } from "@/utils/index.utils"
+import { getThemeMode } from "@/utils/theme.utils"
 
 export default function PostDetailReaction(props: Pick<Post, "slug">) {
   const [isMount, setIsMount] = useState(false)

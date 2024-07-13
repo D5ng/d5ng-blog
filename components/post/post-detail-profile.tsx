@@ -1,7 +1,7 @@
 import React from "react"
 import Profile from "../profile/profile"
 import { Post } from "@/lib/post.type"
-import { formatDate } from "@/utils/index.utils"
+import { formatDate } from "@/utils/date.utils"
 
 export default function PostDetailProfile(props: Pick<Post, "author" | "readingMinutes" | "date">) {
   const date = formatDate(props.date)

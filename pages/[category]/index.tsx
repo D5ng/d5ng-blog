@@ -25,8 +25,6 @@ export const getStaticProps = (async (context) => {
   const categoryList = getCategoryList()
   const postList = getAllPosts(categoryQuery)
 
-  console.log(postList)
-
   return {
     props: {
       categoryList,

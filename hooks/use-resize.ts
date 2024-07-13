@@ -7,8 +7,8 @@ export default function useResize() {
   useEffect(() => {
     if (window === undefined) return
     const handleResize = () => setInnerWidth(window.innerWidth)
-
     window.addEventListener("resize", throttle(handleResize, 500))
+    handleResize()
 
     return () => window.removeEventListener("resize", handleResize)
   }, [])

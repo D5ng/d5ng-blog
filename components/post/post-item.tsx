@@ -1,8 +1,10 @@
 import Link from "next/link"
 import { Post } from "@/lib/post.type"
 import { Badge } from "@/components/ui/badge"
-import { formatDate, transformedCategory } from "@/utils/index.utils"
+
 import Scene from "../three/scene"
+import { formatDate } from "@/utils/date.utils"
+import { transformedCategory } from "@/utils/category.utils"
 
 interface Props {
   post: Post
