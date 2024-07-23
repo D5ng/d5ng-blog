@@ -4,7 +4,6 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next"
 import Post from "@/components/post/post"
 
 export default function CategoryPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
-  console.log(props)
   return (
     <>
       <Category categoryList={props.categoryList} />
