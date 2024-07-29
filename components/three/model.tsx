@@ -34,8 +34,8 @@ export default function Model(props: { image: string }) {
       : plane.current!.material.uniforms.vUvScale.value.set(1, aspectRatio / scaleRatio)
 
     plane.current!.material.uniforms.uTime.value += 0.02
-    plane.current!.material.uniforms.uAmplitude.value = 0.2
-    plane.current!.material.uniforms.uWaveLength.value = 7
+    plane.current!.material.uniforms.uAmplitude.value = 0.15
+    plane.current!.material.uniforms.uWaveLength.value = 14
   })
 
   return (
