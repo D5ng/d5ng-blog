@@ -1,0 +1,132 @@
+---
+title: "props.children 깊게 공부하기"
+date: 2024-07-29
+description: props.children을 사용할 때 렌더링 문제를 겪었던 적이 있나요?
+thumbnail: /posts/react/children/thumbnail.jpg
+author: DongHyun Lee
+profileImage: /profile.png
+---
+
+`props.children`을 사용하면 의도치 않은 동작으로 렌더링이 트리거되거나, 안되는 문제가 발생한다. 또한, 렌더링이 트리거되면 useMemo를 사용해 렌더링을 방지하려고 했지만 이 역시 제대로 동작하지 않는다. 이러한 문제가 왜 발생하는지 알아보자.
+
+1. props.children이란 ?
+2. JSX와 React Element
+3. 부모 컴포넌트 렌더링시 자식 컴포넌트가 렌더링 안되는 이유.
+4. 부모 컴포넌트 렌더링시 자식 컴포넌트가 렌더링 되는 이유.
+5. 부모 컴포넌트 렌더링시 자식 컴포넌트도 렌더링되어 useMemo로 최적화 했지만 그럼에도 렌더링 되는 이유.
+
+## props.children이란
+
+`props.children`이라는 특수한 prop을 사용해 자식 컴포넌트나 요소들을 부모 컴포넌트에 전달할 수 있다. 즉 부모 컴포넌트와 자식 컴포넌트(요소) 사이에 포함관계를 설정할 수 있다. 부모 - 자식 관계가 설정되면 부모 컴포넌트에서 `props.children`으로 자식 컴포넌트에 대한 정보에 접근할 수 있다.
+
+즉 `props.children`을 통해 요소 또는 컴포넌트를 합성해서 사용할 수 있고, 어떠한 요소나, 복잡한 컴포넌트가 와도 상관이 없어서 매우 유연하다는 특징이 있다. 따라서 애플리케이션의 여러 부분에서 코드의 재사용성을 향상할 수 있고 모듈화된 코드를 작성할 수 있다.
+
+```tsx
+    <Parent>
+        <Child>
+    </Parent>
+```
+
+## JSX와 React Element
+
+JSX란 JavaScript에 XML을 추가하여 확장한 문법이다. HTML에 태그를 작성하듯 사용할 수 있도록 도와준다. Babel은 JSX를 `React.Element(type, props, children)` 메서드로 호출해 컴파일하고 `React Element`를 생성한다.
+
+`React Element`는 일반 객체면서도 불변성을 가진다. React Element를 생성한 이후에는 해당 element의 자식이나 속성을 변경할 수 없다. 즉 Re-rendering이 된다는 건 `React Element`를 새롭게 만든다고 할 수 있다.
+
+## 근본적인 문제 찾기.
+
+사전지식을 습득했으니 이제 위에 설명했던 렌더링 문제를 설명할 수 있다. 부모 컴포넌트 렌더링 시 자식 컴포넌트가 렌더링 안되는 이유를 찾아보자. 다음은 버튼을 누르면 상태가 변경되어 렌더링을 일으킨 코드다.
+
+```tsx
+export default function App() {
+  return (
+    <Parent>
+      <Child />
+    </Parent>
+  )
+}
+
+function Parent(props: PropsWithChildren) {
+  const [isToggle, setIsToggle] = useState(false)
+  const handleToggle = () => setIsToggle((prevState) => !prevState)
+  console.log("Parent Rendering")
+  return (
+    <>
+      {props.children}
+      <button onClick={handleToggle}>Click Me</button>
+    </>
+  )
+}
+
+function Child() {
+  console.log("Child Rendering")
+  return <div>Child</div>
+}
+```
+
+실행결과
+![실행결과](/posts/react/children/result.png)
+
+위에 예제는 Child 컴포넌트가 렌더링이 트리거되지 않는 문제다. 실행 결과를 보면 `Parent Rendering`이 콘솔에 여러 번 찍히는 것을 볼 수 있다. 흔히들 상태 변경이 되면 상태가 일어난 컴포넌트부터 하위 컴포넌트까지 렌더링이 발생한다고 알고 있지만, 이 예제에서는 그렇지 않다.
+
+`props.children`은 `React Element`를 생성하고 불변성 객체라고 말했다. App 컴포넌트가 렌더링 될 때 Child 객체가 만들어진다. 객체의 생성 시점은 App 컴포넌트라는 것이다. 따라서 Parent 컴포넌트가 렌더링 된다고 해서 Child 컴포넌트는 렌더링 될 이유가 없다. 즉 Child 컴포넌트가 렌더링이 되려면 Child의 생성 시점인 App에서 렌더링이 일어나야 한다는 것이다.
+
+그러면 다른 경우를 생각해보자. 바로 Child 컴포넌트가 렌더링이 되는 문제다. 이건 위에서 설명했듯이 Child 컴포넌트가 렌더링이 된다는 건 Child를 생성하고 있는 컴포넌트가 렌더링 되기 때문이다.
+
+마지막으로 React.memo를 사용해 최적화했을 때 적용 안 되는 이유에 대해서 알아보자. 이러한 경우는 다음 코드와 같다.
+
+```tsx
+export default function App() {
+  const [isToggle, setIsToggle] = useState(false)
+  const handleToggle = () => setIsToggle((prevState) => !prevState)
+  console.log("App")
+  return (
+    <>
+      <ParentMemo>
+        <Child />
+      </ParentMemo>
+      <button onClick={handleToggle}>Click Me</button>
+    </>
+  )
+}
+
+const ParentMemo = React.memo(Parent)
+
+function Parent(props: PropsWithChildren) {
+  console.log("Parent Rendering")
+  return <div>{props.children}</div>
+}
+
+function Child() {
+  console.log("Child Rendering")
+  return <div>Child</div>
+}
+```
+
+실행결과
+![실행결과](/posts/react/children/result2.png)
+
+위 코드는 App에서 버튼을 클릭하면 상태가 변화하기 때문에 리 렌더링이 발생한다. 하지만 `React.memo`를 사용했음에도 여전히 하위 컴포넌트에서는 리 렌더링이 발생한다. 이것도 쉽게 답을 찾을 수 있다. 우리는 JSX를 통해 새로운 `React Element`를 만든다는 것을 알고 있다. 즉 App 컴포넌트가 리 렌더링 되면서 `props.children`을 새로운 객체로 만든다. 따라서 `React.memo`는 새로운 props라고 인식하기 때문에 리 렌더링이 일어나는 것이다.
+
+> 여기서 `React.memo`란 컴포넌트를 memorization 해서 props가 변경되지 않았다면 리 렌더링 방지하는 것을 말한다.
+
+여기서 한 가지 중요한 건 `props.children`은 컴포넌트 props의 children이라는 속성으로 전달해도 똑같이 동작한다. 즉 다음과 같다는 말이다.
+
+```tsx
+<Parent children={<Child />} />
+```
+
+```tsx
+<Parent>
+    <Child>
+</Parent>
+```
+
+## 결론
+
+props.children에 렌더링은 부모 컴포넌트에서 한다. 하지만 props.children 자체는 부모 컴포넌트를 호출한 컴포넌트에서 객체를 생성하기 때문에 이러한 문제가 발생했다. 이제 어느 정도 이해를 했다면 props.children을 통해 렌더링 최적화도 해보면 좋을 것 같고 추가로 react-router-dom에서 사용하는 패턴인 `Render Props Pattern`도 알아보면 좋을 것 같다.
+
+## Reference
+
+- [children props에 대한 고찰](https://velog.io/@2ast/React-children-prop%EC%97%90-%EB%8C%80%ED%95%9C-%EA%B3%A0%EC%B0%B0feat.-%EB%A0%8C%EB%8D%94%EB%A7%81-%EC%B5%9C%EC%A0%81%ED%99%94#reactmemo%EB%A5%BC-%EB%AC%B4%ED%9A%A8%ED%99%94%ED%95%98%EB%8A%94-children-prop)
+- [The mystery of React Element, children, parents and re-renders](https://www.developerway.com/posts/react-elements-children-parents)
