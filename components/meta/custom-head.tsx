@@ -24,7 +24,7 @@ export default function CustomHead(props: Props) {
       <meta property="og:type" content="website" />
       <meta property="article:author" content="D5ng" />
       <meta property="article:tag" content={`프론트엔드 기술블로그 ${props.tag || ""}`} />
-      <link rel="icon" href="/favicon-32x32.png" type="image/png" />
+      <link rel="icon" href="/favicon32.png" type="image/png" />
     </Head>
   )
 }
