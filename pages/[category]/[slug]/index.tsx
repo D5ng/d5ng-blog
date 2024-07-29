@@ -27,6 +27,7 @@ export default function PostDetailPage(props: InferGetStaticPropsType<typeof get
         description={props.description}
         slug={[props.publicCategory, props.slug]}
         tag={props.categoryPath}
+        image={props.thumbnail}
       />
       <section className="relative m-auto w-[90%] prose prose-neutral dark:prose-invert max-w-[680px] min-[1600px]:max-w-[800px]">
         <PostDetailHeader {...props} />

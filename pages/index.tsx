@@ -7,7 +7,7 @@ import { GetStaticProps, InferGetStaticPropsType } from "next"
 export default function HomePage(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
-      <CustomHead title="D5ng Blog - Frontend" description="내가 배운 모든것을 기록하고 공유하자" />
+      <CustomHead />
       <Category categoryList={props.categoryList} />
       <Post postList={props.postList} />
     </>
