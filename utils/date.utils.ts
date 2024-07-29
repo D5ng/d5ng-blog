@@ -17,7 +17,7 @@ export const MONTHS_EN = [
 
 export function formatDate(date: string) {
   const transformedMonth = MONTHS_EN[dayjs(date).month()]
-  const transformedDate = dayjs(date).date()
+  const transformedDate = dayjs(date).date().toString().padStart(2, "0")
   const transformedyear = dayjs(date).year()
 
   return `${transformedMonth} ${transformedDate}, ${transformedyear}`
