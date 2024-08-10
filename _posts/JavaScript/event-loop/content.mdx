@@ -1,34 +1,86 @@
 ---
 title: 이벤트 루프
 date: 2024-08-08
-description: 자바스크립트는 한 번에 한 가지의 일만 처리하는데, 동시에 처리되는 것 처럼 보여지는 이유는 무엇일까 ?
-thumbnail: /posts/retrospective/codeit-end/codeit-end2.jpg
+description: 자바스크립트는 한 번에 하나의 작업만 처리하는데, 동시에 처리되는 것처럼 보이는 이유는 무엇일까?
+thumbnail: /posts/JavaScript/event-loop/thumbnail.jpg
 author: DongHyun Lee
 profileImage: /profile.png
 ---
 
-이벤트 루프를 알기 전 우선적으로 알아야할 개념들이 필요하다.
+자바스크립트는 싱글 스레드 언어다. 하지만 웹에서 일어나는 일들을 보면 동시에 작업을 하는 것처럼 보인다. 이러한 이유는 이벤트 루프 덕분에 가능하다. 이벤트 루프를 알기 전에 다음과 같은 내용들을 알고 있어야 이해하기 쉽다.
 
-- 자바스크립트의 특징
-- 비동기
+- 자바스크립트 특징
+- 자바스크립트 엔진
+- 자바스크립트의 런타임 환경
+- 동기와 비동기
 
 ## 자바스크립트의 특징
 
-자바스크립트는 한 번에 한 가지의 일만 처리할 수 있다. 즉 자바스크립트는 싱글 스레드 언어라고 부른다. UI를 조작하고, 사용자 입력이나 서버에서 데이터를 받아오려면 더 효율적인 메커니즘이 필요하다.
+자바스크립트는 한 번에 한 가지의 일만 처리할 수 있는데, 이것을 `싱글 스레드`라고 부른다. 자바스크립트 엔진은 하나의 콜 스택으로 이루어져 있기 때문에 동시에 처리할 수 있는 능력이 없다.
 
 > 스레드(thread)는 어떠한 프로그램 내에서, 특히 프로세스 내에서 실행되는 흐름의 단위를 말한다. 일반적으로 한 프로그램은 하나의 스레드를 가지고 있지만, 프로그램 환경에 따라 둘 이상의 스레드를 동시에 실행할 수 있다. 이러한 실행 방식을 멀티스레드(multithread)라고 한다.
 > [위키백과](<https://ko.wikipedia.org/wiki/%EC%8A%A4%EB%A0%88%EB%93%9C_(%EC%BB%B4%ED%93%A8%ED%8C%85)>)
 
-## 비동기
+## 자바스크립트 엔진과 런타임 환경
 
-### 동기와 비동기
+자바스크립트는 ECMAScript를 기반으로 만들어진 프로그래밍 언어다. 자바스크립트 엔진은 ECMAScript 엔진이라고 말하는 게 더 정확하지만 일반적으로는 자바스크립트 엔진이라고 말을 한다. 즉 자바스크립트 엔진은 ECMAScript를 구현한 것을 말한다. 자바스크립트 런타임 환경은 자바스크립트가 어느 환경에서 실행되는지에 따라 달라진다. `fetch`, `DOM API`들은 브라우저에서 제공받는다. 따라서 자바스크립트는 ECMAScript + 호스트 객체(자바스크립트가 실행되는 환경에서 제공받는 객체)라고 볼 수 있다.
 
-동기는 요청한 작업에 완료 여부를 따져 순차적으로 처리하는것을 말한다. 비동기는 요청한 작업에 완료 여부를 따지지 않고 처리하는것을 말한다. 즉 동기와 비동기의 차이는 순차적으로 처리하냐 안하냐의 차이다.
+즉 우리가 말하는 자바스크립트가 런타임 환경을 말하는 것인지 ECMAScript인지 명확하게 구분할 필요가 있다. 앞으로 나올 이벤트 루프는 ECMASCript에 정의되어 있지 않은 내용이다. 자바스크립트 엔진이 아닌 자바스크립트 런타임 환경에서 사용되는 개념이다. 따라서 개념의 혼동이 오면 안 된다.
 
-### 비동기가 필요한 이유
+## 동기와 비동기
 
-모든 작업을 동기적으로 처리하게 된다면 해당 작업들이 끝날 때까지 기다려야한다. 즉 프로그램의 지연이 일어나고 흐름이 끊기는 현상이 발생하게 된다. 따라서 비동기가 필요한 이유는 시간이 오래 걸리는 작업을 할 때 다른 작업도 같이 할 수 있어야 끊기지 않고 빠르게 처리할 수 있기 때문이다.
+![Image](/posts/JavaScript/event-loop/snyc-async.png)
+자바스크립트는 한 번에 한 가지의 일만 처리할 수 있기 때문에 요청한 작업에 완료 여부를 따져 순차적으로 처리를 한다. 이것을 동기라고 부른다. 동기는 순서가 보장되지만 요청한 작업이 끝날 때까지 블로킹 된다는 단점이 있다. 비동기는 요청한 작업에 완료 여부랑 상관없이 처리하는 것을 말한다. 즉 순서를 예측할 수 없지만, 작업이 끝날 때까지 기다리지 않고 다음 작업을 이어가기 때문에 동기보다 더 많은 일을 할 수 있다.
 
-## 이벤트 루프가 필요한 이유
+## 이벤트 루프
 
-우리가 웹 사이트에 접속해 정보를 얻으려고 할 때 많은 문제가 생긴다. 서버에서 받아온 데이터를 사용자한테 보여주어야할 때
+![Image](/posts/JavaScript/event-loop/event-loop.jpg)
+자바스크립트는 싱글 스레드 언어이지만, 웹 어플리케이션에서는 많은 일이 동시에 일어나는 것처럼 보인다. 자바스크립트 엔진은 단일 호출 스택(CallStack)을 사용하며 요청이 들어올 때마다 해당 요청을 순차적으로 Call Stack에 담아 처리할 뿐이다. 위 그림에서 볼 수 있듯이 `fetch`, `setTimeout`등 비동기 함수들은 자바스크립트 엔진이 아닌 외부에 있는 Web API에서 처리를 하게 된다. 또한, Event Loop, Callback Queue도 마찬가지로 자바스크립트 엔진 외부에 구현되어 있다.
+
+![Image](/posts/JavaScript/event-loop/nodejs-environment.jpg)
+
+위 그림에서도 브라우저 환경과 비슷한 구조를 볼 수 있다. Node.js는 비동기 IO를 지원하기 위해 `libuv` 라이브러리를 사용하며, 이 라이브러리가 이벤트 루프를 제공한다. 자바스크립트 엔진은 비동기 작업을 위해 Node.js의 API를 호출하며 이때 넘겨진 콜백은 libuv의 이벤트 루프를 통해 스케쥴되고 실행된다.
+
+자바스크립트가 싱글 스레드 기반의 언어라는 말은 ＂자바스크립트 엔진이 하나의 콜 스택을 사용한다＂는 관점에서만 사실이다. 실제 자바스크립트가 실행되는 환경인 브라우저, Node.js에서는 주로 여러 개의 스레드(멀티스레드)를 사용되며, 이러한 실행 환경이 하나의 Call Stack을 사용하는 자바스크립트 엔진과 상호 연동하기 위해 사용하는 장치가 바로 `이벤트 루프`인 것이다.
+
+### CallStack
+
+Call Stack은 자바스크립트 엔진 안에 있고, 함수를 호출하면 새로운 실행 컨텍스트가 생성되어 Call Stack에 추가된다. Call Stack은 먼저 들어온 게 나중에 나가는 FILO의 스택이다. 함수가 값을 반환하면 Call Stack에서 제거된다.
+
+![Image](/posts/JavaScript/event-loop/callstack.gif)
+
+위 gif와 같이 자바스크립트는 한 번에 하나의 작업만 처리할 수 있다. 만약 오래 걸리는 작업을 처리한다고 하면, 다른 작업은 처리할 수 없는 블로킹이 발생하게 된다.
+
+### Web API
+
+![Image](/posts/JavaScript/event-loop/web-api.gif)
+Web APIs는 브라우저에서 제공하는 API 모음이라고 볼 수 있다. Web APIs의 일부분은 비동기적으로 실행되는 작업들을 처리한다. 대표적으로 `setTimeout`, `fetch`등이 있고, 콜백 함수 방식과 Promise 기반의 방식을 사용한다.
+
+> 여기서 중요한 건 Web APIs가 모든 것을 비동기적으로 처리하지 않는다. `document.querySelector()` 또는 `console.log()`와 같은 메서드들은 동기적으로 처리된다.
+
+### Callback Queue (Task Queue)
+
+![Image](/posts/JavaScript/event-loop/callback-queue.gif)
+`Callback Queue`는 Web APIs에서 처리된 콜백 함수를 대기하는 공간이고, 먼저 들어온 게 먼저 나가는 FIFO 구조다. Callback Queue에는 Task Queue와 Micro task Queue가 있다. 둘의 차이점은 우선순위에 따라 처리되는 순서가 달라진다는 점이다. 위 gif에서는 Geo location API를 다루고 있지만, Web APIs에서 처리된 콜백 함수들은 Callback Queue라는 공간에 대기한다고 볼 수 있다.
+
+### Event Loop
+
+![Image](/posts/JavaScript/event-loop/event-loop.gif)
+
+Event Loop은 Call Stack이 비어있는 상태인지 지속해서 확인하고 비어있는 상태라면 Callback Queue에 있는 함수를 Call Stack으로 옮기고 실행시키는 역할을 한다.
+
+위 gif에서는 `setTimeout`에 대한 예제다. 동작 과정을 설명해보자면 다음과 같다.
+
+1. `setTimeout(() => console.log('2000ms'), 2000)`이 호출되면 CallStack에 푸시된다.
+2. setTimeout의 콜백 함수는 Web APIs로 이동해 타이머를 시작한다. 이 때 CallStack에 남아있는 setTimeout 함수는 제거된다.
+3. 비동기이기 때문에 바로 다음 함수인`setTimeout(() => console.log('100ms'), 100)`을 호출하고 CallStack에 푸시된다.
+4. 2번과 마찬가지로 콜백 함수는 Web APIs로 이동해 타이머를 시작하고 CallStack에 남아있는 setTiemout 함수는 제거된다
+5. `console.log('End of Script!')`가 실행되고 콘솔에 출력한다. (동기)
+6. 100ms가 지나면 `() => console.log('100ms')` 콜백 함수가 Callback Queue 대기열에 추가된다.
+7. 이벤트 루프가 CallStack이 비어있는 상태라는걸 감지한 후 `() => console.log('100ms')`함수를 CallStack에 옮기고 실행한다. console.log("100ms")가 출력된다.
+8. 2000ms가 지나면 `() => console.log('2000ms')`콜백 함수가 Callback Queue 대기열에 추가된다.
+9. CallStack이 비어있어, Callback Queue에 대기중인 `() => console.log('2000ms')` 콜백 함수를 CallStack에 옮기고 실행해 console.log("200ms")가 출력된다.
+
+자바스크립트가 싱글 스레드 언어임에도 동시에 실행하는 것처럼 보였던 이유는 자바스크립트 엔진과 런타임 환경의 Web APIs와 Callback Queue 이 3가지를 이벤트 루프가 관리를 하고 있기 때문이다.
+
+| 2024-08-10 Promise 내용은 추후에 추가됩니다.
