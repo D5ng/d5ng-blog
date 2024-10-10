@@ -29,7 +29,7 @@ export default function PostDetailPage(props: InferGetStaticPropsType<typeof get
         tag={props.categoryPath}
         image={props.thumbnail}
       />
-      <section className="relative m-auto w-[90%] prose prose-neutral dark:prose-invert max-w-[680px] min-[1600px]:max-w-[800px]">
+      <section className="relative m-auto w-[90%] prose prose-neutral dark:prose-invert max-w-[680px] min-[1600px]:max-w-[50vw]">
         <PostDetailHeader {...props} />
         <PostDetailBody {...props.mdxSource} />
         {innerWidth >= 1024 && <TableOfContents tocList={props.tocList} />}
