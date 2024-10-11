@@ -14,7 +14,7 @@ interface Props {
 export default function TableOfContentsItem({ toc, currentId, id, handleScrollTo }: Props) {
   const href = id ? `#${id}` : "#"
   const isHeadingElement3 = toc.indent === 1
-  const isHeading3ClassName = isHeadingElement3 ? "ml-4 text-xs py-0.5" : "text-sm"
+  const isHeading3ClassName = isHeadingElement3 ? "ml-4 text-xs py-0.5" : "text-sm py-0.5"
   const activeClassName = `${currentId === toc.text.trim() ? "font-medium text-foreground dark:text-foreground" : "font-normal text-neutral-400 dark:text-neutral-400"} ${isHeading3ClassName}`
 
   const handleScroll = (event: MouseEvent) => {

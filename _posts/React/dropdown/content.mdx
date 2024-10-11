@@ -1,15 +1,274 @@
 ---
 title: "점진적으로 드롭다운 메뉴 개선하기"
 date: 2024-10-10
-description: 당신의 드롭다운 메뉴는 확장성과 가독성이 고려되어있나요 ?
+description: 당신의 드롭다운 메뉴는 확장성과 유연성이 고려되어있나요 ?
 thumbnail: /posts/react/dropdown/thumbnail.jpg
 author: DongHyun Lee
 caption: /profile.png
 ---
 
-## 점진적인 방법.
+드롭다운 메뉴는 웹 어플리케이션에서 흔히 볼 수 있는 UI다. 누구나 한 번쯤은 만들어 봤던 경험들이 있을 것이다. 만드는것도 크게 어렵지 않다. 내가 부트캠프를 하면서 많은 사람들의 드롭다운 메뉴는 재사용성과 확장성이 떨어져 남의 코드에 if문이 덕지덕지 붙여지는 것을 경험했었다. 프론트엔드를 배운 웬만한 사람들은 다 만들 수 있다. 하지만 구현에만 초첨을 둔 것과 확장성과 유연성을 고려한 것과는 시간이 지남에 따라 큰 차이가 보일 수 밖에 없다. 따라서 구현에만 초점을 둔 초안을 바탕으로 점진적으로 어떻게 개선하는지에 대한 나의 방법을 공유하겠다. 지극히 내 주관적인 생각이기 때문에 피드백은 환영이다.
 
-드롭다운 메뉴는 웹 어플리케이션에서 굉장히 많이 사용하는 UI중 하나입니다.
+우선 만들기 전에 용어 정리를 할 필요가 있다. 바로 Dropdown Menu와 Select에 대한 차이다. 둘다 비슷한 UI이지만 서로 다른 성격을 띈다. 우리는 디자이너와 소통도 해야하고, 명칭을 제대로 알아야 올바른 요구사항을 만들 수 있다.
 
-점진적으로 드롭다운 메뉴를 구현해보자.
-ㄹㅇㄴ렁ㄴ라ㅣ언리ㅏㄴㅇㄹ
+- `Dropdown Menu` - 메뉴의 항목을 클릭했을 때에는 특정 동작(페이지 이동, 특정 기능)을 수행하거나, 중첩된 하위 메뉴들을 보여준다는 특징이 있다.
+- `Select` - HTML의 Select태그를 생각하면 좋다. 즉 Form에서 사용자한테 입력받기 위해 여러 옵션을 제공해 선택하게 하는 하나의 입력 요소를 말한다.
+
+즉 서로 비슷한 UI이지만 기능에 초점이 다르기 때문에 요구사항 또한 다르다. 실제로 나는 드롭다운 메뉴와 셀렉트를 동시에 쓰려다보니 코드가 많이 지저분해졌던 경험을 했었다.
+
+## 요구사항 정의
+
+드롭다운 메뉴가 닫혀있는 상태와 열려있는 상태로 정의를 해보았다.
+
+#### 메뉴가 닫혀있는 상태
+
+- Dropdown 버튼을 클릭하여 메뉴를 보여준다.
+
+#### 메뉴가 열려있는 상태
+
+- Dropdown 버튼을 클릭하면 메뉴를 닫을 수 있다.
+- 하위 메뉴를 클릭하면 특정 동작이 수행하고 메뉴는 닫혀야 한다.
+- Dropdown의 바깥을 클릭하였을 때에는 메뉴가 닫혀야 한다.
+- 중첩된 메뉴를 가진 하위 메뉴에 Hover를 하면 중첩된 메뉴를 보여주어야 한다.
+
+## 흔히 만드는 드롭다운의 모습
+
+내가 겪었었고, 간혹 블로그에 많이 보이는 형태인 구현에만 포커스를 두어 만들어보겠다.
+
+```tsx
+import { FaAngleDown } from "react-icons/fa6"
+import useToggle from "../hooks/useToggle"
+import useOutSideClick from "../hooks/useOutSideClick"
+
+export default function Dropdown() {
+  const { handleToggle, handleCloseToggle, isToggle } = useToggle()
+  const dropdownRef = useOutSideClick<HTMLDivElement>({ onCloseToggle: handleCloseToggle })
+
+  return (
+    <div className="relative text-white" ref={dropdownRef}>
+      <button
+        className="px-3 py-3 bg-gray-800 rounded-lg flex justify-between items-center gap-6"
+        onClick={handleToggle}
+      >
+        드롭다운
+        <div>
+          <FaAngleDown className={isToggle ? `rotate-180` : `rotate-0`} />
+        </div>
+      </button>
+      {isToggle && (
+        <ul className="absolute top-full translate-y-1 bg-gray-800 rounded-lg text-sm w-full p-1 gap-1.5">
+          <li className="hover:bg-gray-700 rounded-md">
+            <button className="w-full h-full p-2">특정 기능</button>
+          </li>
+          <li className="hover:bg-gray-700 rounded-md">
+            <button className="w-full h-full p-2">중첩 메뉴 기능</button>
+          </li>
+          <li className="hover:bg-gray-700 rounded-md">
+            <button className="w-full h-full p-2">페이지 이동 기능</button>
+          </li>
+        </ul>
+      )}
+    </div>
+  )
+}
+```
+
+### 문제점.
+
+내가 본 케이스 중에 이렇게 만드는 사람이 정말 많다(로직 분리를 안하는 경우도 있다). 따라서 재사용을 하려면 코드를 복붙해서 새로운 파일을 만들어야한다. 이 문제는 중복된 코드가 많아지며 일관성도 깨지고 유지보수도 하기 힘들어진다. 즉 DRY 원칙을 위반하게 된다. 이 문제를 해결하려고 다음과 같이 하는 경우가 있다.
+
+```tsx
+// 버튼과, 메뉴항목들을 따로 컴포넌트로 빼는 경우.
+export default function Dropdown() {
+  const { handleToggle, handleCloseToggle, isToggle } = useToggle()
+  const dropdownRef = useOutSideClick<HTMLDivElement>({ onCloseToggle: handleCloseToggle })
+
+  return (
+    <div className="relative text-white" ref={dropdownRef}>
+      <DropdownButton title="드롭다운" isToggle={isToggle} onToggle={handleToggle} />
+      {isToggle && <DropdownMenu {...기능을 전달받아 사용할 props} />}
+    </div>
+  )
+}
+```
+
+버튼과 메뉴를 따로 컴포넌트로 빼면 코드가 짧아져 괜찮다고 느낄 수 있지만 큰 착각이다. 재사용을 하기 위해선 훅들을 매번 불러와야하고 메뉴 같은 경우 props로 전달받아 사용하는 기능들이 있을 수 있다. 즉 많은 props를 전달 받아야할 수 있다. 이를 위해 전역 상태를 사용하는 방법도 있지만 마찬가지로 많은 상태를 관리하게 될 가능성이 높기 때문에 좋은 방법은 아니라고 생각한다. 결정적으로는 드롭다운은 하나의 기능인데 만든것을 보면 두 가지를 분리해서 작성해야 하는 문제가 있다.
+
+## 어떻게 개선할 수 있을까?
+
+이러한 문제를 해결한 곳들이 바로 UI 라이브러리다. 대표적으로는 Radix UI라고 볼 수 있다. Radix UI의 코드를 한번 봐보자.
+
+```tsx
+<DropdownMenu.Root>
+  <DropdownMenu.Trigger>
+    <Button variant="soft">
+      Options
+      <DropdownMenu.TriggerIcon />
+    </Button>
+  </DropdownMenu.Trigger>
+  <DropdownMenu.Content>
+    <DropdownMenu.Item shortcut="⌘ E">Edit</DropdownMenu.Item>
+    <DropdownMenu.Item shortcut="⌘ D">Duplicate</DropdownMenu.Item>
+    <DropdownMenu.Separator />
+    <DropdownMenu.Item shortcut="⌘ N">Archive</DropdownMenu.Item>
+
+    <DropdownMenu.Sub>
+      <DropdownMenu.SubTrigger>More</DropdownMenu.SubTrigger>
+      <DropdownMenu.SubContent>
+        <DropdownMenu.Item>Move to project…</DropdownMenu.Item>
+        <DropdownMenu.Item>Move to folder…</DropdownMenu.Item>
+
+        <DropdownMenu.Separator />
+        <DropdownMenu.Item>Advanced options…</DropdownMenu.Item>
+      </DropdownMenu.SubContent>
+    </DropdownMenu.Sub>
+
+    <DropdownMenu.Separator />
+    <DropdownMenu.Item>Share</DropdownMenu.Item>
+    <DropdownMenu.Item>Add to favorites</DropdownMenu.Item>
+    <DropdownMenu.Separator />
+    <DropdownMenu.Item shortcut="⌘ ⌫" color="red">
+      Delete
+    </DropdownMenu.Item>
+  </DropdownMenu.Content>
+</DropdownMenu.Root>
+```
+
+많은 props를 전달해 주어야하는 문제를 합성 컴포넌트(Compound Pattern)를 사용해 해결한 모습을 볼 수 있다. 놀라운건 이 코드는 훅을 따로 불러올 필요가 없다. 내부적으로 상태들을 공유하고 있기 때문이다. 그리고 드롭다운의 기능이 하나처럼 느껴진다. 문제의 코드처럼 버튼과 메뉴 이런식으로 분리되어있지 않다.
+
+합성 컴포넌트를 사용하면 props를 분산시킬 수 있다. 이 말은 컴포넌트가 본연의 역할만 수행한다는 뜻이기도 하다. 우리도 저러한 형태로 만든다면 재사용성은 물론 확장성과 유연성도 챙길 수 있게된다.
+
+## Compound Pattern으로 바꿔보자.
+
+기존 초안을 Compound Pattern으로 바꾸면 다음과 같은 형태로 변한다. 참고로 네이밍은 Radix UI를 그대로 따랐다. 내부 구현 사항은 조금 다르지만 큰 틀에서 비교하면 비슷하다.
+
+```tsx
+// ui/DropdownMenu.tsx
+import { createContext, ReactNode, useContext } from "react"
+import { FaAngleDown } from "react-icons/fa6"
+import useToggle from "../hooks/useToggle"
+import useOutSideClick from "../hooks/useOutSideClick"
+
+export interface ChildrenProps {
+  children: ReactNode
+}
+
+export type DropdownMenuContextType = {
+  isToggle: boolean
+  handleToggle: () => void
+  handleOpenToggle: () => void
+  handleCloseToggle: () => void
+}
+
+export const DropdownMenuContext = createContext<DropdownMenuContextType>({
+  isToggle: false,
+  handleToggle: () => {},
+  handleOpenToggle: () => {},
+  handleCloseToggle: () => {},
+})
+
+function useDropdownMenu() {
+  const ctx = useContext(DropdownMenuContext)
+  if (!ctx) throw new Error("Dropdown Menu에서 사용해주세요.")
+  return ctx
+}
+
+export function DropdownMenu({ children }: ChildrenProps) {
+  const toggleState = useToggle()
+  const dropdownRef = useOutSideClick<HTMLDivElement>({ onCloseToggle: toggleState.handleCloseToggle })
+
+  return (
+    <DropdownMenuContext.Provider value={toggleState}>
+      <div className="relative text-white" ref={dropdownRef}>
+        {children}
+      </div>
+    </DropdownMenuContext.Provider>
+  )
+}
+
+function DropdownMenuTrigger({ children }: ChildrenProps) {
+  const { handleToggle } = useDropdownMenu()
+  return (
+    <button className="px-3 py-3 bg-gray-800 rounded-lg flex justify-between items-center gap-6" onClick={handleToggle}>
+      {children}
+    </button>
+  )
+}
+
+function DropdownMenuTriggerIcon() {
+  const { isToggle } = useDropdownMenu()
+  return (
+    <div>
+      <FaAngleDown className={isToggle ? `rotate-180` : `rotate-0`} />
+    </div>
+  )
+}
+
+function DropdownMenuContent({ children }: ChildrenProps) {
+  const { isToggle } = useDropdownMenu()
+  if (!isToggle) return null
+  return (
+    <ul className="absolute top-full translate-y-1 bg-gray-800 rounded-lg text-sm w-full p-1 gap-1.5">{children}</ul>
+  )
+}
+
+function DropdownMenuItem({ children }: ChildrenProps) {
+  return (
+    <li className="dropdown-menu-item">
+      <button className="w-full p-2">{children}</button>
+    </li>
+  )
+}
+
+function DropdownMenuSub({ children }: ChildrenProps) {
+  return <li className="hover:bg-gray-700 rounded-md relative group">{children}</li>
+}
+
+function DropdownMenuSubTrigger({ children }: ChildrenProps) {
+  return <div className="w-full p-2">{children}</div>
+}
+
+function DropdownMenuSubContent({ children }: ChildrenProps) {
+  return (
+    <ul className="hidden absolute w-[150px] group-hover:block bg-gray-800 rounded-lg translate-x-full top-0 right-4 p-1 gap-1.5">
+      {children}
+    </ul>
+  )
+}
+
+DropdownMenu.Root = DropdownMenu
+DropdownMenu.Trigger = DropdownMenuTrigger
+DropdownMenu.Content = DropdownMenuContent
+DropdownMenu.Item = DropdownMenuItem
+DropdownMenu.TriggerIcon = DropdownMenuTriggerIcon
+// Sub
+DropdownMenu.Sub = DropdownMenuSub
+DropdownMenu.SubTrigger = DropdownMenuSubTrigger
+DropdownMenu.SubContent = DropdownMenuSubContent
+```
+
+```tsx
+// components/Dropdown.tsx
+export default function Dropdown() {
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger>
+        드롭다운
+        <DropdownMenu.TriggerIcon />
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content>
+        <DropdownMenu.Item>특정 기능</DropdownMenu.Item>
+        <DropdownMenu.Sub>
+          <DropdownMenu.SubTrigger>중첩 메뉴 기능</DropdownMenu.SubTrigger>
+          <DropdownMenu.SubContent>
+            <DropdownMenu.Item>중첩 메뉴 기능1</DropdownMenu.Item>
+            <DropdownMenu.Item>중첩 메뉴 기능2</DropdownMenu.Item>
+            <DropdownMenu.Item>중첩 메뉴 기능3</DropdownMenu.Item>
+          </DropdownMenu.SubContent>
+        </DropdownMenu.Sub>
+        <DropdownMenu.Item>페이지 이동 기능</DropdownMenu.Item>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
+  )
+}
+```
