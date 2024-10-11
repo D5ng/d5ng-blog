@@ -80,6 +80,10 @@
     @apply border-border;
   }
 
+  pre * {
+    @apply font-mono !important;
+  }
+
   html {
     font-size: 16px;
   }
