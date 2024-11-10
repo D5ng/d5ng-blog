@@ -1,7 +1,7 @@
 ---
 title: "React Hook Form과 유사한 인터페이스 만들기"
 date: 2024-11-09
-description: 상태관리를 통해 React Hook Form과 유사한 인터페이스를 가질 수 있도록 만들어봅시다. 🚀
+description: 상태 관리를 통해 React Hook Form과 유사한 인터페이스의 훅 만들기 🚀
 thumbnail: /posts/react/rhf/thumbnail.jpg
 author: DongHyun Lee
 profileImage: /profile.png
@@ -120,6 +120,7 @@ export type UseFormRegisterReturn<TFieldName extends keyof TFieldValues, TFieldV
   onChange: ChangeHandler
   onBlur: ChangeHandler
   value: TFieldValues[TFieldName]
+  ref: RefCallback
 }
 
 export type RegisterOptions = Partial<{
@@ -131,21 +132,19 @@ export type RegisterOptions = Partial<{
 
 const validateOptions = useRef<Partial<Record<keyof TFieldValues, RegisterOptions>>>({})
 
-const register: UseFormRegister<TFieldValues> = useCallback(
-  (name, options) => {
-    if (options) {
-      validateOptions.current[name] = options
-    }
+const register: UseFormRegister<TFieldValues> = (name, options) => {
+  if (options && !validateOptions.current[name]) {
+    validateOptions.current[name] = options
+  }
 
-    return {
-      name,
-      value: formState.values[name],
-      onChange: handleChange,
-      onBlur: handleChange,
-    }
-  },
-  [formState.values, handleBlur, handleChange],
-)
+  return {
+    name,
+    value: formState.values[name],
+    onChange: handleChange,
+    onBlur: handleChange,
+    ref: setFieldsRef(name),
+  }
+}
 ```
 
 register 함수는 각 Input에 name, onChange, onBlur, value 값을 할당한다. 유효성 검사를 진행할 때 `validateOptions.current[name] = options` 코드를 포함하지 않으면, 해당 필드에 대해서만 유효성 검사가 이루어진다. 폼 제출 시 모든 필드에 대한 유효성 검사를 수행하려면, useRef를 사용하여 빈 객체를 만들고, 각 필드의 유효성 검사 옵션을 저장하도록 구현했다.
@@ -410,9 +409,9 @@ export default function HookForm() {
 
 타입스크립트를 사용하면서 제네릭 타입에 대해서도 많은 것을 배웠다. 내가 사용한 제네릭은 겉멋처럼 느껴졌지만, RHF에서의 제네릭 타입은 정말 유연하게 작성되어 있고, 타입 추론도 잘 돼서 놀랐다. 타입을 구현하면서 소스 코드를 참고했지만, 이렇게까지 유연하게 사용할 수 있다는 점에서 큰 인상을 받았다.
 
-현재 기능에는 만족하지만, focus 부분이 없어 아쉽다는 생각이 든다. 해당 필드에 에러가 발생했을 때 focus를 처리하는 것이 UX 측면에서 좋고, 이를 추가하는 것이 당연하다고 생각한다. 일단 지금은 여기까지 구현하고, 추후에는 ref를 사용하여 focus 기능을 추가할 계획이다.
+RHF를 분석하면서 callback ref를 사용하는 방식을 처음 접했다. 찾아보니, callback ref는 요소가 마운트되었을 때 바로 실행되어 useEffect 같은 추가적인 훅 없이도 초기화 작업을 수행할 수 있다고 한다. 또한, RHF에서는 기본적으로 에러가 발생한 필드에 포커스를 자동으로 맞추지 않지만, 에러 발생 시 해당 필드로 포커스가 이동되도록 구현하여 UX를 개선했다. (더 찾아봐보고 RHF에 이슈를 남기면 좋을것 같다는 생각도 든다)
 
-또한, 현재 hook 안에 코드가 다소 밀집되어 있어 가독성이 떨어질 수 있다는 생각이 든다. useReducer를 사용하여 Flux Pattern을 적용하면, 액션에 따라 상태를 업데이트하는 로직이 분리되고, 코드의 가독성이 높아져 디버깅이 더 쉬워질 것 같다.
+현재 hook 안에 코드가 다소 밀집되어 있어 가독성이 떨어질 수 있다는 생각이 든다. useReducer를 사용하여 Flux Pattern을 적용하면, 상태 업데이트 로직을 액션별로 분리해 가독성을 높일 수 있고, 코드가 더 구조화되며, 디버깅도 수월해질 것 같다.
 
 ## 깃헙 레포 (최종 코드)
 
