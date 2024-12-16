@@ -7,5 +7,4 @@ Host: https://d5ng-blog.vercel.app/
 
 # Sitemaps
 Sitemap: https://d5ng-blog.vercel.app/sitemap.xml
-Sitemap: https://d5ng-blog.vercel.app/sitemap-0.xml
 
