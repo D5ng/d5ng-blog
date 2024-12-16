@@ -1,4 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<sitemap><loc>https://d5ng-blog.vercel.app/sitemap-0.xml</loc></sitemap>
-</sitemapindex>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<url>
+  <loc>https://d5ng-blog.vercel.app/</loc>
+  <lastmod>2024-12-16T03:08:20+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://d5ng-blog.vercel.app/Retrospective</loc>
+  <lastmod>2024-12-16T03:08:20+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://d5ng-blog.vercel.app/React</loc>
+  <lastmod>2024-12-16T03:08:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://d5ng-blog.vercel.app/JavaScript</loc>
+  <lastmod>2024-12-16T03:08:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://d5ng-blog.vercel.app/Introduce</loc>
+  <lastmod>2024-12-16T03:08:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://d5ng-blog.vercel.app/React/rhf</loc>
+  <lastmod>2024-12-16T03:08:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://d5ng-blog.vercel.app/React/dropdown</loc>
+  <lastmod>2024-12-16T03:08:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://d5ng-blog.vercel.app/Retrospective/geultto</loc>
+  <lastmod>2024-12-16T03:08:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://d5ng-blog.vercel.app/Retrospective/2024-09</loc>
+  <lastmod>2024-12-16T03:08:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://d5ng-blog.vercel.app/React/compound-pattern</loc>
+  <lastmod>2024-12-16T03:08:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://d5ng-blog.vercel.app/JavaScript/event-loop</loc>
+  <lastmod>2024-12-16T03:08:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://d5ng-blog.vercel.app/React/children</loc>
+  <lastmod>2024-12-16T03:08:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://d5ng-blog.vercel.app/React/rendering</loc>
+  <lastmod>2024-12-16T03:08:23+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://d5ng-blog.vercel.app/Retrospective/codeit-end</loc>
+  <lastmod>2024-12-16T03:08:23+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://d5ng-blog.vercel.app/Introduce/self</loc>
+  <lastmod>2024-12-16T03:08:23+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+</urlset>
