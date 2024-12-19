@@ -2,68 +2,68 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
   <loc>https://d5ng-blog.vercel.app/</loc>
+  <lastmod>2024-12-19</lastmod>
   <changefreq>daily</changefreq>
-  <lastmod>2024-12-19T03:28:15.179Z</lastmod>
-  <priority>0.9</priority>
+  <priority>1.0</priority>
 </url>
 <url>
   <loc>https://d5ng-blog.vercel.app/React/rhf</loc>
+  <lastmod>2024-12-19</lastmod>
   <changefreq>daily</changefreq>
-  <lastmod>2024-12-19T03:28:15.179Z</lastmod>
   <priority>0.8</priority>
 </url>
 <url>
   <loc>https://d5ng-blog.vercel.app/React/dropdown</loc>
+  <lastmod>2024-12-19</lastmod>
   <changefreq>daily</changefreq>
-  <lastmod>2024-12-19T03:28:15.179Z</lastmod>
   <priority>0.8</priority>
 </url>
 <url>
   <loc>https://d5ng-blog.vercel.app/Retrospective/geultto</loc>
+  <lastmod>2024-12-19</lastmod>
   <changefreq>daily</changefreq>
-  <lastmod>2024-12-19T03:28:15.179Z</lastmod>
   <priority>0.8</priority>
 </url>
 <url>
   <loc>https://d5ng-blog.vercel.app/Retrospective/2024-09</loc>
+  <lastmod>2024-12-19</lastmod>
   <changefreq>daily</changefreq>
-  <lastmod>2024-12-19T03:28:15.179Z</lastmod>
   <priority>0.8</priority>
 </url>
 <url>
   <loc>https://d5ng-blog.vercel.app/React/compound-pattern</loc>
+  <lastmod>2024-12-19</lastmod>
   <changefreq>daily</changefreq>
-  <lastmod>2024-12-19T03:28:15.179Z</lastmod>
   <priority>0.8</priority>
 </url>
 <url>
   <loc>https://d5ng-blog.vercel.app/JavaScript/event-loop</loc>
+  <lastmod>2024-12-19</lastmod>
   <changefreq>daily</changefreq>
-  <lastmod>2024-12-19T03:28:15.179Z</lastmod>
   <priority>0.8</priority>
 </url>
 <url>
   <loc>https://d5ng-blog.vercel.app/React/children</loc>
+  <lastmod>2024-12-19</lastmod>
   <changefreq>daily</changefreq>
-  <lastmod>2024-12-19T03:28:15.179Z</lastmod>
   <priority>0.8</priority>
 </url>
 <url>
   <loc>https://d5ng-blog.vercel.app/React/rendering</loc>
+  <lastmod>2024-12-19</lastmod>
   <changefreq>daily</changefreq>
-  <lastmod>2024-12-19T03:28:15.179Z</lastmod>
   <priority>0.8</priority>
 </url>
 <url>
   <loc>https://d5ng-blog.vercel.app/Retrospective/codeit-end</loc>
+  <lastmod>2024-12-19</lastmod>
   <changefreq>daily</changefreq>
-  <lastmod>2024-12-19T03:28:15.179Z</lastmod>
   <priority>0.8</priority>
 </url>
 <url>
   <loc>https://d5ng-blog.vercel.app/Introduce/self</loc>
+  <lastmod>2024-12-19</lastmod>
   <changefreq>daily</changefreq>
-  <lastmod>2024-12-19T03:28:15.179Z</lastmod>
   <priority>0.8</priority>
 </url>
 </urlset>
