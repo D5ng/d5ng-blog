@@ -33,7 +33,6 @@ export default function SnowParticles() {
     canvasRef.current.height = window.innerHeight * 2
 
     const draw = () => {
-      const ctx = canvasRef.current!.getContext("2d")!
       ctx.fillStyle = "rgba(255, 255, 255, 0.8)"
 
       PARTICLES.forEach((particles) => {
