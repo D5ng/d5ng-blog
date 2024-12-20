@@ -17,8 +17,11 @@ function random(min: number, max: number) {
   return Math.floor(Math.random() * (max - min)) + min
 }
 
+let isParticlesInitialized = false
+
 export default function SnowParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const animationRef = useRef<number | null>(null)
 
   useEffect(() => {
     if (!canvasRef.current || typeof window === "undefined") return
@@ -38,6 +41,8 @@ export default function SnowParticles() {
       PARTICLES.forEach((particles) => {
         particles.x += particles.speedX
         particles.y += particles.speedY
+
+        // console.log(particles.y)
         ctx?.beginPath()
         ctx.arc(particles.x, particles.y - particles.r * 2, particles.r, 0, Math.PI * 2)
         ctx.fill()
@@ -51,10 +56,11 @@ export default function SnowParticles() {
     const animate = (ctx: CanvasRenderingContext2D) => {
       ctx.clearRect(0, 0, retinaDisplay.width, retinaDisplay.height)
       draw()
-      requestAnimationFrame(() => animate(ctx))
+      animationRef.current = requestAnimationFrame(() => animate(ctx))
     }
 
     const createParticles = () => {
+      if (isParticlesInitialized) return
       for (let i = 0; i < PARTICLES_COUNT; i++) {
         const angle = Math.random() * Math.PI * 2
         const x = random(0, retinaDisplay.width)
@@ -64,10 +70,19 @@ export default function SnowParticles() {
         const speedY = random(0.6, PARTICLES_SPEED)
         PARTICLES.push({ x, y, r, speedX, speedY })
       }
+
+      isParticlesInitialized = true
     }
 
     createParticles()
     animate(ctx)
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+        animationRef.current = null
+      }
+    }
   }, [])
 
   return <canvas ref={canvasRef} className="fixed w-screen h-screen left-0 top-0 -z-10" />
