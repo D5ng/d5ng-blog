@@ -1,0 +1,121 @@
+---
+title: Reflow 딥다이브 (feat. Performance 분석)
+date: 2024-12-21
+description: Performance 분석을 통한 Reflow Deep Dive
+thumbnail: /posts/JavaScript/reflow/thumbnail.jpg
+author: DongHyun Lee
+profileImage: /profile.png
+---
+
+Reflow를 공부하는 과정에서 예상과 다른 동작을 발견하게 되었고, 이를 검증하기 위해 직접 테스트를 진행해 보았다. 그러나 테스트 결과는 내가 기대했던 것과 달랐고, 이를 통해 Reflow에 대해 충분히 이해하지 못하고 있다는 사실을 깨달았다. 이후 관련 자료를 심층적으로 조사하면서, 그동안 Reflow에 대해 단편적으로만 알고 있었다는 점을 명확히 인식하게 되었다. 이번 아티클에서는 Reflow의 개념을 자세히 파헤치고, 공부 과정에서 생긴 의문과 예상과 다른 결과의 원인을 체계적으로 분석해 보려 한다.
+
+## Reflow
+
+우선 용어를 정리하자면, Reflow는 Firefox에서 주로 사용되는 용어이며, Chrome과 Safari에서는 Layout이라는 표현을 사용한다. 이러한 차이는 브라우저 개발자 도구를 통해 쉽게 확인할 수 있다. 즉 Reflow, Layout 같은 말이다. 여기서는 Reflow라고 말을 하겠다. Reflow란 **렌더 트리를 기준으로 요소의 레이아웃(크기, 위치, 관계)을 다시 계산하는 과정**을 의미한다. 특히 현대 웹 개발에서 자바스크립트를 사용해 DOM을 조작할 때 Reflow에 신경 써야 한다. Reflow는 `성능 저하`와 `병목 현상`을 초래할 수 있기 때문이다.
+
+> Reflow가 아니더라도 브라우저 렌더링 과정에 대한 것들은 모두 신경써야 한다.
+
+## 우리가 알고있는 Reflow는 생각보다 다르다.
+
+Reflow에 대한 기본적인 지식을 배웠으니, 다음 코드는 Reflow가 몇번 발생하는지 생각해보자.
+
+```ts
+const button = document.querySelector("button")! as HTMLButtonElement
+const paragraph = document.querySelector("p")! as HTMLParagraphElement
+
+button.addEventListener("click", (event) => {
+  for (let i = 1; i <= 10_000; i++) {
+    paragraph.innerHTML = String(i)
+  }
+})
+```
+
+대부분의 사람들은(실제 주변 동료들에게 질문한 결과) "반복 횟수만큼 Reflow가 발생한다"라고 답변했다. 하지만 실제로는 Reflow는 한 번만 발생하고 있었다. 위 코드를 Performance로 분석한 결과는 다음과 같다.
+
+![성능 분석 결과](/posts/JavaScript/reflow/no-optimization.png)
+
+지금은 innerHTML을 추가한 것이지만, 위 코드에서 `createElement`를 사용해 `appendChild`로 DOM 추가를 하더라도 Reflow는 한 번만 발생하게 된다. 이러한 이유를 알려면, Asynchronous Reflow와 Synchronous Reflow를 알아야 한다.
+
+### Asynchronous Reflow(비동기식 리플로우)
+
+Asynchronous Reflow란 브라우저가 DOM 변경에 따른 레이아웃 재계산 작업을 지연하거나 최적화하는 과정을 말한다. 비동기식 Reflow는 페인트가 일어나기 전에 실행된다. 위에 이미지를 보면 pre-paint 이전에 Layout이 일어나는 것을 볼 수 있다. 마치 React의 batch와 같이 DOM 업데이트를 모아서 처리한다고 볼 수 있다. 따라서 위 코드와 같이 반복적으로 DOM 업데이트를 시도한다고해서 매번 Reflow가 발생하는건 아니다.
+
+### Synchronous Reflow(동기식, 강제 리플로우)
+
+Synchronous Reflow는 Forced Reflow 라고도 부른다. 이 개념은 우리가 알고있는 Reflow와 같다. 위 코드에서 `paragraph.innerHTML = String(i)`밑에서 `console.log(Reflow를_일으키는_속성_및_메서드)`를 사용하면 이 때 Forced Reflow가 일어나게 된다. 이 과정을 Performance로 분석하면 다음과 같다.
+
+![동기식 Reflow](/posts/JavaScript/reflow/force-reflow.png)
+
+위 그림에서 보라색으로 표시된 부분이 Layout, 즉 Reflow를 의미한다. Reflow는 브라우저가 DOM의 레이아웃을 다시 계산하는 과정으로, 이 작업은 매우 계산 비용이 크다. 특히, 매번 Reflow를 계산하게 되면 병목 현상이 발생하여 성능이 크게 저하되는 모습을 볼 수 있다. 이렇게 단일 작업 및 프레임에서 Reflow가 여러번 발생하는 것을 `레이아웃 쓰레싱(Layout Thrashing)`이라고 한다.
+
+따라서, Forced Reflow는 최대한 사용하지 않는 것이 중요하다. DOM이나 스타일 변경 작업을 효율적으로 설계하고, Reflow를 최소화하는 방법을 고려해야 한다. 예를 들어, 레이아웃 정보를 읽고 쓰는 작업을 분리하거나, `requestAnimationFrame`을 활용하여 렌더링 타이밍에 맞춰 작업을 수행하는 것이 성능 최적화에 도움을 줄 수 있다.
+
+### 레이아웃 쓰레싱의 의문
+
+브라우저는 HTML 파일을 파싱하여 DOM 트리를 생성하고, link 태그를 만나면 CSSOM을 생성한다. 자바스크립트가 DOM을 조작하면, 브라우저는 DOM 트리 생성을 중단하고 자바스크립트 실행을 완료한 후 DOM 트리 생성을 재개한다. 이후, DOM과 CSSOM을 결합하여 Render Tree를 만든다.
+
+이 과정을 살펴보면, `레이아웃 쓰레싱이 어떻게 발생하는지 이해하기 어렵다`. 왜냐하면 Render Tree가 생성된 이후에야 레이아웃 계산(Reflow)이 일어나기 때문이다.
+
+하지만 Render Tree가 완성되기 이전에도 레이아웃 쓰레싱이 발생할 수 있는 이유는 자바스크립트 실행 중에 Forced Reflow가 발생하기 때문이다. Forced Reflow가 발생하면 브라우저는 Recalculate Style 단계를 실행하여 DOM과 CSSOM을 기반으로 Render Tree를 업데이트한다.
+
+따라서, Render Tree는 자바스크립트가 실행되는 동안에도 동적으로 생성되거나 갱신될 수 있으며, 이 과정에서 반복적인 DOM 읽기/쓰기 작업이 강제 Reflow를 유발하면 레이아웃 쓰레싱이 발생할 수 있다.
+
+![Recalculate style](/posts/JavaScript/reflow/layout-thrashing.png)
+
+### 동기식 Reflow에서는 매번 Rendering이 진행될까?
+
+브라우저 렌더링 과정에서 Reflow가 발생하면 Paint, Compositing 단계를 거쳐 DOM에 Commit 된다는 것은 모두 알고 있을 것이다. 하지만 동기식 Reflow에서는 Paint, Commit 단계를 진행하지 않는다. 이러한 점을 보았을 때 Reflow가 된다고해서 반드시 DOM에 Commit되지 않는다는 것을 알 수 있다. 만약 Commit 단계까지 갔다면, 숫자가 카운트되면서 올라가는 애니메이션이 진행되어야하는데, 실제로는 그렇지 않다는것을 알 수 있다.
+
+추가적으로, 자바스크립트가 실행 중일 때 브라우저는 렌더링 작업이 차단된다. 즉, 반복문에서 Reflow를 유발하더라도 자바스크립트 실행이 끝나기 전까지 브라우저는 화면을 렌더링하지 않는다. 이는 브라우저가 싱글 스레드로 동작하며, 자바스크립트와 렌더링 작업을 병렬로 처리하지 않기 때문이다. 따라서, Reflow가 발생하더라도 실제 렌더링은 자바스크립트 실행이 완료된 후에 이루어진다.
+
+만약 자바스크립트가 렌더링을 차단하지 않도록 하기 위해 긴 작업을 작은 단위로 나누고, `setTimeout`이나 `requestAnimationFrame`을 사용해 비동기적으로 작업을 분리하면 브라우저가 렌더링과 자바스크립트 실행을 병행할 수 있다. 이러한 방법은 React에서 긴 동기 작업으로 인해 UI가 멈추는 문제를 해결하기 위해 비동기적으로 동작하는것과 비슷하다.
+
+### 그렇다면 Reflow 최적화를 할 필요가 없을까?
+
+성능 최적화에 관심이 많은 분들은 위 코드(비동기 Reflow)를 최적화하기 위해 다음과 같은 방식을 사용하는 경우를 볼 수 있다
+
+```ts
+let text = ""
+
+button.addEventListener("click", () => {
+  for (let i = 1; i <= 10000; i++) {
+    text = String(i)
+  }
+
+  paragraph.innerHTML = text
+})
+```
+
+비동기식 Reflow를 활용한 코드에서도 Reflow는 한 번만 발생하고, 위 코드에서도 Reflow는 한 번만 발생한다. 따라서 Reflow 측면에서는 결과가 동일하다.
+
+그러나 DOM을 한 번만 업데이트하는 것과 여러 번 업데이트하는 것은 성능에서 매우 큰 차이를 가져온다. 이는 브라우저가 DOM 변경 작업을 처리하는 방식 때문으로, Performance 탭을 통해 분석한 결과에서도 이러한 차이가 명확히 드러난다.
+
+#### 여러번의 DOM 업데이트
+
+![여러번의 DOM 업데이트](/posts/JavaScript/reflow/dom-update.png)
+
+여러 번의 DOM 업데이트가 수행된 Performance 결과를 보면, 파란색 막대가 매우 촘촘하게 나타나는 것을 확인할 수 있다. 이 파란색 막대는 parseHTML 과정을 나타내며, 브라우저가 HTML 문자열을 파싱하여 DOM 트리를 생성하는 작업을 의미한다.
+
+DOM을 반복적으로 업데이트하면 브라우저가 계속해서 DOM 트리를 재생성해야 하므로, 긴 태스크 작업 경고창이 표시되었다(위 빨간색 막대) 이 특정 작업에서는 154.47ms의 시간이 소요되었으며, 병목 현상으로 이어지고 있다.
+
+#### DOM 업데이트 최적화
+
+![DOM 업데이트 최적화](/posts/JavaScript/reflow/dom-update-optimization.png)
+
+최적화된 DOM 업데이트의 Performance 결과를 보면, DOM 트리를 생성하는 파란색 막대(parseHTML)가 보이지 않는 것을 확인할 수 있다. 이는 DOM 업데이트 작업이 효율적으로 수행되어 브라우저가 불필요한 parseHTML 작업을 최소화했음을 의미한다. 또한, 태스크 작업 속도가 1.29ms로 매우 짧게 측정되었으며, 이는 성능이 크게 개선되었음을 보여준다. (비록 위 이미지에는 표시되지 않았지만, 작업이 최적화된 결과 29ms밖에 걸리지 않는다는 점이 결정적인 차이로 나타난다.)
+
+#### 결론
+
+즉, Reflow가 한 번만 발생한다고 해서 성능 최적화를 하지 않아도 된다는 뜻은 아니다. 위 예시에서 살펴본 것처럼, 최적화를 수행하지 않으면 DOM 트리를 생성하는 과정에서 병목 현상이 발생할 수 있다.
+
+따라서, 최적화를 진행할 때는 단순히 Reflow 관점에서만 보지 말고, Performance 분석 도구를 활용하여 병목의 원인을 찾아야 한다. 이렇게 하면 문제를 더 직관적이고 명확하게 이해할 수 있으며, 최적화를 더욱 효과적으로 수행할 수 있다.
+
+## 마무리
+
+Reflow에 대해 학습하면서 몇 가지 의문이 들었다. 이를 해결하기 위해 다양한 자료를 찾아보고, 브라우저의 렌더링 과정과 Performance 탭을 활용하여 더욱 깊이 있게 분석해보았다.
+
+- `Reflow 관련 메서드나 프로퍼티를 사용하면 항상 Reflow가 발생하는가?`,
+- `Render Tree가 만들어지기 이전에 어떻게 Reflow가 발생하는가?`,
+- `Reflow가 발생하면 DOM에 Commit까지 이어지는가?`
+
+이러한 의문과 고민이 없었다면, 다른 사람들에게 잘못된 정보를 전달했을지도 모른다. 이를 통해, 무엇인가를 배울 때는 항상 검증하는 과정이 필요하다는 것을 다시금 느꼈다. 검증을 통해 내용을 확실히 이해할 수 있을 뿐만 아니라, 더 오래 기억에 남게 된다.
