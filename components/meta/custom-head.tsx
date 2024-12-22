@@ -13,7 +13,9 @@ export default function CustomHead(props: Props) {
   const title = props.title ? `d5ng-Blog - ${props.title}` : "d5ng-Blog - FrontEnd"
   const path = props.slug ? props.slug.join("/") : ""
   const pageURL = `${process.env.NEXT_PUBLIC_HOST_URL}${path}`
-  const description = props.description || "UI/UX와 클린코드에 관심 많은 Frontend 이동현 입니다."
+  const description =
+    props.description ||
+    "다양한 오픈소스를 탐구하며 학습하고, 실험적인 테스트를 진행하며 성장하고 있는 Frontend 이동현 입니다 👋"
   const image = props.image
     ? `${process.env.NEXT_PUBLIC_HOST_URL}${props.image}`
     : process.env.NEXT_PUBLIC_PROFILE_IMAGE
