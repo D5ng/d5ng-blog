@@ -85,16 +85,6 @@ React에서 리렌더링이 발생하면 컴포넌트 함수가 다시 호출되
 ### React useState 의사코드
 
 ```ts
-interface Internals<T> {
-  states: any[]
-  currentStateIndex: number
-  rootComponent: Component<T> | null
-}
-
-type Component<T> = () => T & {
-  render: () => void
-}
-
 const { render, useState } = (function () {
   const internals: Internals<any> = {
     states: [],
@@ -130,12 +120,6 @@ const { render, useState } = (function () {
   return { render, useState }
 })()
 
-type CounterComponent = {
-  increase: () => void
-  decrease: () => void
-  render: () => void
-}
-
 function Counter() {
   const [count, setCount] = useState(1)
 
@@ -152,13 +136,13 @@ function Counter() {
   }
 }
 
-let counterComponent: CounterComponent = render<CounterComponent>(Counter)
+let counterComponent: CounterComponent = render<CounterComponent>(Counter) // 1
 counterComponent.increase()
-counterComponent = render(Counter)
+counterComponent = render(Counter) // 2
 counterComponent.increase()
-counterComponent = render(Counter)
+counterComponent = render(Counter) // 3
 counterComponent.decrease()
-counterComponent = render(Counter)
+counterComponent = render(Counter) // 2
 ```
 
 `useState`는 React의 상태 관리 훅을 모방한 구현으로, 내부적으로 클로저의 특성을 활용해 상태를 유지한다. 코드가 복잡해 보일 수 있지만, 동작 원리를 이해하려면 `Internals`와 `useState`의 구현을 중심으로 살펴보는 것이 핵심이다.
@@ -175,11 +159,7 @@ counterComponent = render(Counter)
 
 이렇듯 클로저는 상태 관리의 핵심 도구로써 매우 유용하게 사용된다. 클로저를 활용하면 내부 상태를 외부로부터 안전하게 보호할 수 있을 뿐 아니라, 상태를 지속적으로 관리하고 유지하는 구조를 구현할 수 있다. React의 useState와 같은 상태 관리 훅은 클로저의 이러한 특성을 효과적으로 활용한 대표적인 예라 할 수 있다.
 
-```ts
-const setState = (newState: T | Partial<T>) => {
-  internals.states[currentIndex] = newState
-}
-```
+> 참고로 위 useState의 기능은 아직 부족한 점이 많다. 무엇이 부족한지 고민해보고 기능을 추가해보자!
 
 ## 클로저의 장점과 단점
 
