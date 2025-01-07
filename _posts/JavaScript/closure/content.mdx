@@ -78,9 +78,9 @@ console.log(getCount()) // 5
 
 ## React의 useState는 클로저를 활용하고 있다.
 
-useState는 React 컴포넌트에서 상태 관리를 위해 제공되는 훅으로, 내부적으로 클로저의 특성을 활용해 상태를 유지한다. 이를 알 수 있는 이유는 다음과 같다.
+useState는 React 컴포넌트에서 상태 관리를 위해 제공되는 훅으로, 내부적으로 클로저의 특성을 활용해 상태를 유지한다. React에서 리렌더링이 발생하면 컴포넌트 함수가 다시 호출되며, useState도 함께 호출된다. 하지만, useState는 항상 최신 상태를 반환한다.
 
-React에서 리렌더링이 발생하면 컴포넌트 함수가 다시 호출되지만, useState로 관리하는 값은 항상 최신 상태를 반환한다. 즉 렌더링마다 useState가 호출되더라도, 이전에 변경된 상태 값을 유지한다는 것을 의미한다. 이러한 동작은 React가 컴포넌트별로 상태를 저장하고 관리하며, useState가 이를 참조하도록 설계되었기 때문이다.
+즉, 렌더링이 반복되더라도 useState가 이전 렌더링에서 변경된 상태 값을 유지하며, 이를 통해 컴포넌트의 상태 일관성이 보장된다.
 
 ### React useState 의사코드
 
@@ -147,12 +147,12 @@ counterComponent = render(Counter) // 2
 
 `useState`는 React의 상태 관리 훅을 모방한 구현으로, 내부적으로 클로저의 특성을 활용해 상태를 유지한다. 코드가 복잡해 보일 수 있지만, 동작 원리를 이해하려면 `Internals`와 `useState`의 구현을 중심으로 살펴보는 것이 핵심이다.
 
-- `Internals`와 클로저
+- **Internals**
 
-  - Internals 객체는 컴포넌트의 상태와 훅의 인덱스를 저장하고 있다.
+  - `Internals`객체는 컴포넌트의 상태와 훅의 인덱스를 저장하고 있다.
   - 이 객체는 외부에서 직접 접근할 수 없으며, 클로저로 캡슐화된 상태로, 반환된 함수(render, useState)를 통해서만 상태를 읽거나 수정할 수 있다.
 
-- `useState`와 클로저
+- **useState**
   - `currentIndex`는 useState 호출 순서를 추적하며, 각 훅의 상태를 고유하게 관리하기 위해 사용된다. (useState는 여러번 호출될 수 있다.)
   - `internals.states`, `currentIndex`를 참조하여 현재 상태가 있다면 반환하고 없다면 초기 상태를 설정하고 있다.
   - `setState` 함수는 `internals.states[currentIndex]`를 참조하여 상태를 변경한다.
