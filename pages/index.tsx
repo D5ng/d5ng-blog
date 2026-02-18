@@ -1,7 +1,6 @@
 import Category from "@/components/category/category"
 import CustomHead from "@/components/meta/custom-head"
 import Post from "@/components/post/post"
-import SnowParticles from "@/components/theme/snow-particles"
 import { getAllPosts, getCategoryList } from "@/lib/post.lib"
 import { GetStaticProps, InferGetStaticPropsType } from "next"
 
@@ -9,7 +8,6 @@ export default function HomePage(props: InferGetStaticPropsType<typeof getStatic
   return (
     <>
       <CustomHead />
-      <SnowParticles />
       <Category categoryList={props.categoryList} />
       <Post postList={props.postList} />
     </>
