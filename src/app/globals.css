@@ -10,9 +10,10 @@
 
 /*
  * 토큰은 디자인 시스템 한 곳에서만 와요.
- * Tailwind 기본값(색, 글꼴, 글자 크기, 모서리, 이징)을 비우고 --d5ng-* 변수에 연결해요.
+ * 디자인 시스템에 있는 분류(색, 글꼴, 글자 크기, 굵기, 간격, 모서리, 그림자, 이징)는 Tailwind 기본값을 비우고 --d5ng-* 변수에 연결해요.
  * 클래스 이름은 디자인 시스템 토큰 이름에서 --d5ng-color- 를 뺀 것과 같아요. 예: text-fg-neutral, bg-bg-layer-default
- * 간격(spacing)은 아직 Tailwind 기본값이에요.
+ * 간격은 이름이 곧 px이에요. p-16은 16px이고, Tailwind 기본(p-4 = 16px)과 다르니 주의해요.
+ * 디자인 시스템에 없는 분류(화면 너비, 컨테이너, z-index, 투명도, 자간 등)는 Tailwind 기본값을 그대로 써요.
  */
 @theme inline {
   --color-*: initial;
@@ -115,11 +116,40 @@
   --text-code: var(--d5ng-font-size-code);
   --text-code--line-height: var(--d5ng-font-line-height-code);
 
+  --font-weight-*: initial;
+  --font-weight-regular: var(--d5ng-font-weight-regular);
+  --font-weight-medium: var(--d5ng-font-weight-medium);
+  --font-weight-semibold: var(--d5ng-font-weight-semibold);
+  --font-weight-bold: var(--d5ng-font-weight-bold);
+
+  /* 기본 배수(--spacing)까지 지워져서 디자인 시스템에 없는 값(p-5 등)은 클래스가 만들어지지 않아요. */
+  --spacing-*: initial;
+  --spacing-0: var(--d5ng-spacing-0);
+  --spacing-2: var(--d5ng-spacing-2);
+  --spacing-4: var(--d5ng-spacing-4);
+  --spacing-6: var(--d5ng-spacing-6);
+  --spacing-8: var(--d5ng-spacing-8);
+  --spacing-10: var(--d5ng-spacing-10);
+  --spacing-12: var(--d5ng-spacing-12);
+  --spacing-16: var(--d5ng-spacing-16);
+  --spacing-20: var(--d5ng-spacing-20);
+  --spacing-24: var(--d5ng-spacing-24);
+  --spacing-32: var(--d5ng-spacing-32);
+  --spacing-40: var(--d5ng-spacing-40);
+  --spacing-48: var(--d5ng-spacing-48);
+  --spacing-64: var(--d5ng-spacing-64);
+  --spacing-80: var(--d5ng-spacing-80);
+
   --radius-*: initial;
   --radius-sm: var(--d5ng-radius-sm);
   --radius-md: var(--d5ng-radius-md);
   --radius-lg: var(--d5ng-radius-lg);
   --radius-xl: var(--d5ng-radius-xl);
+
+  --shadow-*: initial;
+  --shadow-sm: var(--d5ng-shadow-sm);
+  --shadow-md: var(--d5ng-shadow-md);
+  --shadow-lg: var(--d5ng-shadow-lg);
 
   --ease-*: initial;
   --ease-standard: var(--d5ng-easing-standard);
