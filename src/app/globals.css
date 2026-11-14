@@ -1,49 +1,136 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * 레이어 순서를 맨 먼저 정해요. 처음 선언된 순서가 우선순위가 돼요.
+ * Tailwind 초기화(base) < 디자인 시스템(d5ng) < Tailwind 유틸리티(utilities)
+ * 이 줄이 없으면 import 순서에 따라 Preflight가 디자인 시스템 컴포넌트 스타일을 덮을 수 있어요.
+ */
+@layer theme, base, d5ng, components, utilities;
+
+@import "tailwindcss";
+@import "@d5ng/react/styles.css";
+
+/*
+ * 토큰은 디자인 시스템 한 곳에서만 와요.
+ * Tailwind 기본값(색, 글꼴, 글자 크기, 모서리, 이징)을 비우고 --d5ng-* 변수에 연결해요.
+ * 클래스 이름은 디자인 시스템 토큰 이름에서 --d5ng-color- 를 뺀 것과 같아요. 예: text-fg-neutral, bg-bg-layer-default
+ * 간격(spacing)은 아직 Tailwind 기본값이에요.
+ */
+@theme inline {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-bg-brand-solid: var(--d5ng-color-bg-brand-solid);
+  --color-bg-brand-solid-hover: var(--d5ng-color-bg-brand-solid-hover);
+  --color-bg-brand-solid-pressed: var(--d5ng-color-bg-brand-solid-pressed);
+  --color-bg-brand-weak: var(--d5ng-color-bg-brand-weak);
+  --color-bg-brand-weak-hover: var(--d5ng-color-bg-brand-weak-hover);
+  --color-bg-brand-weak-pressed: var(--d5ng-color-bg-brand-weak-pressed);
+  --color-bg-code: var(--d5ng-color-bg-code);
+  --color-bg-critical-solid: var(--d5ng-color-bg-critical-solid);
+  --color-bg-critical-solid-hover: var(--d5ng-color-bg-critical-solid-hover);
+  --color-bg-critical-solid-pressed: var(--d5ng-color-bg-critical-solid-pressed);
+  --color-bg-critical-weak: var(--d5ng-color-bg-critical-weak);
+  --color-bg-disabled: var(--d5ng-color-bg-disabled);
+  --color-bg-highlight: var(--d5ng-color-bg-highlight);
+  --color-bg-informative-solid: var(--d5ng-color-bg-informative-solid);
+  --color-bg-informative-weak: var(--d5ng-color-bg-informative-weak);
+  --color-bg-layer-basement: var(--d5ng-color-bg-layer-basement);
+  --color-bg-layer-default: var(--d5ng-color-bg-layer-default);
+  --color-bg-layer-floating: var(--d5ng-color-bg-layer-floating);
+  --color-bg-neutral-solid: var(--d5ng-color-bg-neutral-solid);
+  --color-bg-neutral-solid-hover: var(--d5ng-color-bg-neutral-solid-hover);
+  --color-bg-neutral-solid-pressed: var(--d5ng-color-bg-neutral-solid-pressed);
+  --color-bg-neutral-weak: var(--d5ng-color-bg-neutral-weak);
+  --color-bg-neutral-weak-hover: var(--d5ng-color-bg-neutral-weak-hover);
+  --color-bg-neutral-weak-pressed: var(--d5ng-color-bg-neutral-weak-pressed);
+  --color-bg-positive-solid: var(--d5ng-color-bg-positive-solid);
+  --color-bg-positive-weak: var(--d5ng-color-bg-positive-weak);
+  --color-bg-scrim: var(--d5ng-color-bg-scrim);
+  --color-bg-warning-solid: var(--d5ng-color-bg-warning-solid);
+  --color-bg-warning-weak: var(--d5ng-color-bg-warning-weak);
+  --color-fg-brand: var(--d5ng-color-fg-brand);
+  --color-fg-brand-hover: var(--d5ng-color-fg-brand-hover);
+  --color-fg-brand-inverse: var(--d5ng-color-fg-brand-inverse);
+  --color-fg-brand-pressed: var(--d5ng-color-fg-brand-pressed);
+  --color-fg-code: var(--d5ng-color-fg-code);
+  --color-fg-critical: var(--d5ng-color-fg-critical);
+  --color-fg-critical-inverse: var(--d5ng-color-fg-critical-inverse);
+  --color-fg-disabled: var(--d5ng-color-fg-disabled);
+  --color-fg-informative: var(--d5ng-color-fg-informative);
+  --color-fg-neutral: var(--d5ng-color-fg-neutral);
+  --color-fg-neutral-muted: var(--d5ng-color-fg-neutral-muted);
+  --color-fg-neutral-subtle: var(--d5ng-color-fg-neutral-subtle);
+  --color-fg-on-brand-solid: var(--d5ng-color-fg-on-brand-solid);
+  --color-fg-on-critical-solid: var(--d5ng-color-fg-on-critical-solid);
+  --color-fg-on-informative-solid: var(--d5ng-color-fg-on-informative-solid);
+  --color-fg-on-neutral-solid: var(--d5ng-color-fg-on-neutral-solid);
+  --color-fg-on-positive-solid: var(--d5ng-color-fg-on-positive-solid);
+  --color-fg-on-warning-solid: var(--d5ng-color-fg-on-warning-solid);
+  --color-fg-placeholder: var(--d5ng-color-fg-placeholder);
+  --color-fg-positive: var(--d5ng-color-fg-positive);
+  --color-fg-positive-inverse: var(--d5ng-color-fg-positive-inverse);
+  --color-fg-warning: var(--d5ng-color-fg-warning);
+  --color-stroke-brand-solid: var(--d5ng-color-stroke-brand-solid);
+  --color-stroke-critical: var(--d5ng-color-stroke-critical);
+  --color-stroke-focus-ring: var(--d5ng-color-stroke-focus-ring);
+  --color-stroke-focus-ring-inverse: var(--d5ng-color-stroke-focus-ring-inverse);
+  --color-stroke-neutral-contrast: var(--d5ng-color-stroke-neutral-contrast);
+  --color-stroke-neutral-muted: var(--d5ng-color-stroke-neutral-muted);
+  --color-stroke-neutral-strong: var(--d5ng-color-stroke-neutral-strong);
+  --color-stroke-neutral-subtle: var(--d5ng-color-stroke-neutral-subtle);
+  --color-stroke-neutral-weak: var(--d5ng-color-stroke-neutral-weak);
+
+  --font-*: initial;
+  --font-sans: var(--d5ng-font-family-base);
+  --font-mono: var(--d5ng-font-family-code);
+
+  --text-*: initial;
+  --text-t1: var(--d5ng-font-size-t1);
+  --text-t1--line-height: var(--d5ng-font-line-height-t1);
+  --text-t2: var(--d5ng-font-size-t2);
+  --text-t2--line-height: var(--d5ng-font-line-height-t2);
+  --text-t3: var(--d5ng-font-size-t3);
+  --text-t3--line-height: var(--d5ng-font-line-height-t3);
+  --text-t4: var(--d5ng-font-size-t4);
+  --text-t4--line-height: var(--d5ng-font-line-height-t4);
+  --text-t5: var(--d5ng-font-size-t5);
+  --text-t5--line-height: var(--d5ng-font-line-height-t5);
+  --text-t6: var(--d5ng-font-size-t6);
+  --text-t6--line-height: var(--d5ng-font-line-height-t6);
+  --text-t7: var(--d5ng-font-size-t7);
+  --text-t7--line-height: var(--d5ng-font-line-height-t7);
+  --text-t8: var(--d5ng-font-size-t8);
+  --text-t8--line-height: var(--d5ng-font-line-height-t8);
+  --text-t9: var(--d5ng-font-size-t9);
+  --text-t9--line-height: var(--d5ng-font-line-height-t9);
+  --text-t10: var(--d5ng-font-size-t10);
+  --text-t10--line-height: var(--d5ng-font-line-height-t10);
+  --text-t11: var(--d5ng-font-size-t11);
+  --text-t11--line-height: var(--d5ng-font-line-height-t11);
+  --text-t12: var(--d5ng-font-size-t12);
+  --text-t12--line-height: var(--d5ng-font-line-height-t12);
+  --text-t13: var(--d5ng-font-size-t13);
+  --text-t13--line-height: var(--d5ng-font-line-height-t13);
+  --text-t14: var(--d5ng-font-size-t14);
+  --text-t14--line-height: var(--d5ng-font-line-height-t14);
+  --text-code: var(--d5ng-font-size-code);
+  --text-code--line-height: var(--d5ng-font-line-height-code);
+
+  --radius-*: initial;
+  --radius-sm: var(--d5ng-radius-sm);
+  --radius-md: var(--d5ng-radius-md);
+  --radius-lg: var(--d5ng-radius-lg);
+  --radius-xl: var(--d5ng-radius-xl);
+
+  --ease-*: initial;
+  --ease-standard: var(--d5ng-easing-standard);
+  --ease-enter: var(--d5ng-easing-enter);
+  --ease-exit: var(--d5ng-easing-exit);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+@layer base {
+  body {
+    background-color: var(--d5ng-color-bg-layer-default);
+    color: var(--d5ng-color-fg-neutral);
+    -webkit-font-smoothing: antialiased;
   }
 }
