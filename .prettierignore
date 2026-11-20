@@ -1,0 +1,3 @@
+pnpm-lock.yaml
+# 글꼴 배포본에 딸린 CSS라 손대지 않아요.
+src/fonts/
