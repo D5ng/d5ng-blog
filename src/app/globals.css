@@ -161,6 +161,29 @@
   body {
     background-color: var(--d5ng-color-bg-layer-default);
     color: var(--d5ng-color-fg-neutral);
+    /* 한글이 낱말 중간에서 줄바꿈되지 않게 해요. 긴 영문·주소는 넘치지 않게 끊어요. 시안과 같아요. */
+    word-break: keep-all;
+    overflow-wrap: break-word;
     -webkit-font-smoothing: antialiased;
   }
+}
+
+/* 브라우저 기본 UI(스크롤바, 폼 컨트롤)도 테마를 따라가게 해요. */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/*
+ * TODO(ds-0.1.1): 디자인 시스템 0.1.1에 반영되면 이 블록을 지워요.
+ * 0.1.0 다크에서 subtle·placeholder가 muted와 같은 gray-400이라 글자 위계가 사라져요.
+ * Figma에는 gray-500으로 이미 고쳐져 있어요. 레이어 밖에 두어서 @layer d5ng보다 우선해요.
+ */
+[data-theme="dark"] {
+  --d5ng-color-fg-neutral-subtle: var(--d5ng-color-palette-gray-500);
+  --d5ng-color-fg-placeholder: var(--d5ng-color-palette-gray-500);
 }
