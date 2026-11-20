@@ -1,15 +1,23 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from "next"
+import { ThemeScript } from "@/components/theme-script"
+import { site } from "@/lib/site"
+import "@/fonts/pretendard/pretendardvariable-dynamic-subset.css"
+import "@/fonts/jetbrains-mono/jetbrains-mono.css"
+import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "D5ng",
-  description: "프론트엔드 개발자 D5ng이 배우고, 만들고, 고민한 것을 적는 블로그",
-};
+  metadataBase: new URL(site.url),
+  title: site.name,
+  description: site.description,
+}
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
       <body>{children}</body>
     </html>
-  );
+  )
 }
