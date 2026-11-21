@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { Suspense } from "react"
 import { Hero } from "@/components/hero"
 import { PostIndex } from "@/components/post-index"
@@ -5,7 +6,13 @@ import { PostIndexView } from "@/components/post-index-view"
 import { SiteFooter } from "@/components/site-footer"
 import { TopBar } from "@/components/top-bar"
 import type { CategoryCounts } from "@/lib/category"
+import { feedLinks } from "@/lib/metadata"
 import { getAllPosts } from "@/lib/posts"
+
+// ?category= 주소도 같은 글 목록이라 검색에는 / 하나로 모아요.
+export const metadata: Metadata = {
+  alternates: { canonical: "/", types: feedLinks },
+}
 
 export default function Home() {
   const posts = getAllPosts()
@@ -31,7 +38,7 @@ export default function Home() {
           </Suspense>
         </section>
       </main>
-      <SiteFooter year={last} />
+      <SiteFooter />
     </>
   )
 }

@@ -166,10 +166,35 @@
 
 @custom-variant phone (@media (width < 760px));
 
+/* 글 화면의 제목·본문이 한 단계 작아지는 폭이에요. 시안 값이에요. */
+@custom-variant narrow (@media (width < 900px));
+
+/*
+ * 글 본문 크기예요. 디자인 시스템 Article Body(16px, 행간 1.5)는 긴 글을 읽기에 작아서 블로그에서만 크게 써요.
+ * 좁은 화면에서도 행간 비율은 그대로예요.
+ */
+@theme inline {
+  --text-article: var(--d5ng-font-size-t6);
+  --text-article--line-height: 1.85;
+  --text-article-narrow: var(--d5ng-font-size-t5);
+  --text-article-narrow--line-height: 1.85;
+}
+
 /* 시안의 바깥 여백이에요. 노치가 있는 기기에서는 안전 영역만큼 더 들여요. */
 @utility wrap {
   width: 100%;
   max-width: 1600px;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px), 5vw);
+  padding-right: max(16px, env(safe-area-inset-right, 0px), 5vw);
+}
+
+/* 글 화면의 가운데 칼럼이에요. 바깥 여백은 wrap과 같고, 안쪽 폭은 720px까지예요. */
+@utility column {
+  width: 100%;
+  max-width: calc(
+    720px + max(16px, env(safe-area-inset-left, 0px), 5vw) + max(16px, env(safe-area-inset-right, 0px), 5vw)
+  );
   margin-inline: auto;
   padding-left: max(16px, env(safe-area-inset-left, 0px), 5vw);
   padding-right: max(16px, env(safe-area-inset-right, 0px), 5vw);
@@ -204,6 +229,20 @@
 
 [data-theme="dark"] {
   color-scheme: dark;
+}
+
+/*
+ * 코드 글자색은 rehype-pretty-code가 낱말마다 라이트·다크 두 값을 변수로 넣어 둬요.
+ * 빌드 때 두 테마를 다 만들어 두고, 여기서는 지금 테마의 값만 골라요.
+ */
+@layer components {
+  [data-rehype-pretty-code-figure] [data-line] span {
+    color: var(--shiki-light);
+  }
+
+  [data-theme="dark"] [data-rehype-pretty-code-figure] [data-line] span {
+    color: var(--shiki-dark);
+  }
 }
 
 /*
