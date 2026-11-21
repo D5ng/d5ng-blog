@@ -1,7 +1,6 @@
 import { site } from "@/lib/site"
 import { TempThemeButton } from "./temp-theme-button"
 
-// 1단계 확인용 임시 페이지예요. 3단계에서 메인 화면으로 바뀌어요.
 export default function Home() {
   return (
     <main className="mx-auto flex min-h-dvh max-w-5xl flex-col justify-center gap-24 px-24 py-64">
