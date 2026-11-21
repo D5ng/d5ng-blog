@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { ThemeScript } from "@/components/theme-script"
 import { site } from "@/lib/site"
-import "@/fonts/pretendard/pretendardvariable-dynamic-subset.css"
+import "@/fonts/pretendard/pretendardvariable.css"
 import "@/fonts/jetbrains-mono/jetbrains-mono.css"
 import "./globals.css"
 
