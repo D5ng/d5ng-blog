@@ -1,0 +1,34 @@
+/* 커서나 키보드 포커스가 있는 행은 제목이 들어오고, 나머지 행은 흐려져요. */
+.title {
+  display: inline-block;
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+
+.fade {
+  transition: opacity 0.35s ease;
+}
+
+@media (hover: hover) {
+  .row:hover .title {
+    transform: translateX(12px);
+  }
+
+  .list:has(.row:hover) .row:not(:hover) .fade {
+    opacity: 0.22;
+  }
+}
+
+.row:focus-visible .title {
+  transform: translateX(12px);
+}
+
+.list:has(.row:focus-visible) .row:not(:focus-visible) .fade {
+  opacity: 0.22;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title,
+  .fade {
+    transition: none;
+  }
+}
