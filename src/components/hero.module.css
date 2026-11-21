@@ -1,0 +1,81 @@
+.head {
+  container-type: inline-size;
+}
+
+/*
+ * BLOG는 줄 폭을 채우되 화면 높이의 26%보다 커지지 않아요.
+ * 글자 상자 너비가 글자 크기의 약 2.5배라서, 칸 너비의 39.8%가 글자 크기예요.
+ * 개수와 소개 글은 BLOG 글자의 위·아래 선에 맞추려고 --word-size를 써요.
+ */
+.grid {
+  --count-col: clamp(150px, 17vw, 250px);
+  --gap: clamp(12px, 2vw, 32px);
+  --height-cap: 36.11svh;
+  --word-size: min((100cqi - var(--count-col) - var(--gap)) * 0.398, var(--height-cap));
+  display: grid;
+  grid-template-columns: var(--count-col) minmax(0, 1fr);
+  grid-template-areas:
+    "count word"
+    "intro word";
+  column-gap: var(--gap);
+  padding-top: clamp(16px, 3vw, 48px);
+}
+
+.count {
+  grid-area: count;
+  padding-top: calc(var(--word-size) * 0.035);
+  font-size: var(--d5ng-font-size-t2);
+  line-height: var(--d5ng-font-line-height-t2);
+  color: var(--d5ng-color-fg-neutral-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.intro {
+  grid-area: intro;
+  align-self: end;
+  max-width: 17em;
+  padding-bottom: calc(var(--word-size) * 0.04);
+  font-size: var(--d5ng-font-size-t4);
+  /* 디자인 시스템 줄 높이(약 1.35)는 한글 문장에 빡빡해요. */
+  line-height: 1.6;
+  color: var(--d5ng-color-fg-neutral-muted);
+}
+
+.at {
+  display: block;
+  margin-top: var(--d5ng-spacing-4);
+  font-size: var(--d5ng-font-size-t3);
+  line-height: var(--d5ng-font-line-height-t3);
+  color: var(--d5ng-color-fg-neutral-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 칸 자체를 컨테이너로 둬서, 폰에서 개수 칸 너비가 바뀌어도 BLOG가 칸에 꼭 맞아요. */
+.wordBox {
+  grid-area: word;
+  container-type: inline-size;
+}
+
+.word {
+  width: fit-content;
+  margin: 0 -0.01em 0 auto;
+  padding: 0 0.055em 0.03em 0;
+  white-space: nowrap;
+  font: 800 min(39.8cqi, var(--height-cap)) / 0.78 var(--d5ng-font-family-base);
+  letter-spacing: -0.055em;
+}
+
+@media (width < 760px) {
+  .grid {
+    --word-size: min((100cqi - 35px) * 0.398, var(--height-cap));
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      "count word"
+      "intro intro";
+    row-gap: var(--d5ng-spacing-16);
+  }
+
+  .intro {
+    padding-bottom: 0;
+  }
+}

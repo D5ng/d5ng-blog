@@ -157,7 +157,35 @@
   --ease-exit: var(--d5ng-easing-exit);
 }
 
+/* 손가락으로 쓰는 화면이거나 폭이 좁으면 행에 썸네일을 넣어요. 호버할 수 없어서 따라다니는 썸네일을 못 써요. */
+@custom-variant compact {
+  @media (hover: none), (width < 760px) {
+    @slot;
+  }
+}
+
+@custom-variant phone (@media (width < 760px));
+
+/* 시안의 바깥 여백이에요. 노치가 있는 기기에서는 안전 영역만큼 더 들여요. */
+@utility wrap {
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px), 5vw);
+  padding-right: max(16px, env(safe-area-inset-right, 0px), 5vw);
+}
+
 @layer base {
+  /* 칩으로 걸러서 목록이 짧아져도 스크롤바 자리가 그대로라 화면이 옆으로 밀리지 않아요. */
+  html {
+    scrollbar-gutter: stable;
+  }
+
+  :focus-visible {
+    outline: var(--d5ng-focus-ring-width) solid var(--d5ng-color-stroke-focus-ring);
+    outline-offset: var(--d5ng-focus-ring-width);
+  }
+
   body {
     background-color: var(--d5ng-color-bg-layer-default);
     color: var(--d5ng-color-fg-neutral);
