@@ -263,9 +263,6 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ^0.8.1
         version: 0.8.1(prettier@3.10.1)
-      sharp:
-        specifier: ^0.35.5
-        version: 0.35.5(@types/node@20.19.43)
       tailwindcss:
         specifier: ^4.3.5
         version: 4.3.5
@@ -4301,7 +4298,8 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@img/colour@1.1.0': {}
+  '@img/colour@1.1.0':
+    optional: true
 
   '@img/sharp-darwin-arm64@0.35.5':
     optionalDependencies:
@@ -7941,6 +7939,7 @@ snapshots:
       '@img/sharp-win32-ia32': 0.35.5
       '@img/sharp-win32-x64': 0.35.5
       '@types/node': 20.19.43
+    optional: true
 
   shebang-command@2.0.0:
     dependencies:
