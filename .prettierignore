@@ -1,3 +1,5 @@
 pnpm-lock.yaml
 # 글꼴 배포본에 딸린 CSS라 손대지 않아요.
 src/fonts/
+# 글 본문은 쓴 그대로 둬요. Prettier가 코드 블록과 줄바꿈을 바꾸면 글이 달라져요.
+content/
