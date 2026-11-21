@@ -10,6 +10,7 @@ import { objectPosition } from "@/components/post-thumb"
 import { SiteFooter } from "@/components/site-footer"
 import { categoryLabels } from "@/lib/category"
 import { formatDate } from "@/lib/date"
+import { baseOpenGraph, feedLinks } from "@/lib/metadata"
 import { getAllPosts, getPost } from "@/lib/posts"
 
 const TITLE_ID = "post-title"
@@ -22,7 +23,20 @@ export async function generateMetadata({ params }: PageProps<"/posts/[slug]">): 
   const { slug } = await params
   const post = getAllPosts().find((item) => item.slug === slug)
   if (!post) return {}
-  return { title: post.title, description: post.description }
+  const url = `/posts/${slug}`
+  return {
+    title: post.title,
+    description: post.description,
+    alternates: { canonical: url, types: feedLinks },
+    openGraph: {
+      ...baseOpenGraph,
+      type: "article",
+      url,
+      title: post.title,
+      description: post.description,
+      publishedTime: post.date,
+    },
+  }
 }
 
 export default async function PostPage({ params }: PageProps<"/posts/[slug]">) {
