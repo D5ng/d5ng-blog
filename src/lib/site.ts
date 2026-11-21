@@ -7,4 +7,6 @@ export const site = {
     date: "2026-11-15",
   },
   github: "https://github.com/D5ng",
+  // 예전 블로그 주소예요. 지금은 url과 값이 같지만 가리키는 대상이 달라서 따로 둬요.
+  oldBlog: "https://d5ng-blog.vercel.app",
 } as const
