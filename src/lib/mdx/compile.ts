@@ -28,7 +28,12 @@ export async function compilePost(source: string, file: string) {
             rehypeSlug,
             rehypeToc(toc),
             // 라이트·다크 색을 CSS 변수로 함께 내보내고, data-theme에 따라 CSS가 고르게 해요.
-            [rehypePrettyCode, { theme: { light: "github-light", dark: "github-dark-dimmed" }, keepBackground: false }],
+            // 배경은 디자인 시스템 bg-code라서, 그 위에서 모든 글자색이 대비 4.5:1을 넘는 테마를 골랐어요.
+            // github-light·github-dark-dimmed는 각각 3.2·3.6까지 내려가요.
+            [
+              rehypePrettyCode,
+              { theme: { light: "github-light-high-contrast", dark: "github-dark-default" }, keepBackground: false },
+            ],
             rehypeImageSize,
           ],
         },

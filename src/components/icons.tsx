@@ -13,3 +13,11 @@ export function ArrowUpIcon() {
     </svg>
   )
 }
+
+export function ArrowLeftIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M16 10H4M9 5l-5 5 5 5" />
+    </svg>
+  )
+}

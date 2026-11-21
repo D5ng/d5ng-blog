@@ -31,7 +31,7 @@ export default function Home() {
           </Suspense>
         </section>
       </main>
-      <SiteFooter year={last} />
+      <SiteFooter />
     </>
   )
 }

@@ -1,18 +1,9 @@
-import Image from "next/image"
 import NextLink from "next/link"
 import { categoryLabels } from "@/lib/category"
 import { formatDate } from "@/lib/date"
-import type { ThumbnailFocus } from "@/lib/post-schema"
 import type { PostMeta } from "@/lib/posts"
 import styles from "./post-index.module.css"
-
-const objectPosition: Record<ThumbnailFocus, string> = {
-  center: "object-center",
-  left: "object-left",
-  right: "object-right",
-  top: "object-top",
-  bottom: "object-bottom",
-}
+import { PostThumb } from "./post-thumb"
 
 export function PostRow({ post }: { post: PostMeta }) {
   return (
@@ -38,19 +29,7 @@ export function PostRow({ post }: { post: PostMeta }) {
         >
           {formatDate(post.date)}
         </time>
-        {/* 데스크톱에서는 숨어 있어서 내려받지 않아요(지연 로드). */}
-        <span
-          aria-hidden="true"
-          className="relative hidden size-[64px] overflow-hidden rounded-md bg-bg-neutral-weak compact:col-start-1 compact:row-span-2 compact:row-start-1 compact:block"
-        >
-          <Image
-            src={post.thumbnail}
-            alt=""
-            fill
-            sizes="64px"
-            className={`object-cover ${objectPosition[post.thumbnailFocus]}`}
-          />
-        </span>
+        <PostThumb post={post} />
       </NextLink>
     </li>
   )
