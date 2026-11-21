@@ -1,9 +1,10 @@
 import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
-  // partialPrefetching은 켜지 않아요. 켜면 목록에 없는 글 주소가 빈 틀을 먼저 200으로 보내서 404가 나가지 않아요.
-  // 글은 모두 빌드 때 만들어 두므로 부분 프리페치로 얻는 것도 없어요.
   cacheComponents: true,
+  // 켜면 목록에 없는 글 주소가 주소와 상관없는 틀을 먼저 200으로 보내서 404가 나가지 않아요.
+  // 글이 적어서 링크마다 미리 받아도 부담이 작아요. 옵션을 지우면 빌드마다 경고가 떠서 false로 적어 둬요.
+  partialPrefetching: false,
   // 글 페이지를 서버에서 다시 만들 때(캐시 만료, 목록에 없는 주소) 글 원문과 본문 이미지 크기가 필요해요.
   outputFileTracingIncludes: {
     "/posts/*": ["./content/posts/**/*", "./public/posts/**/*"],
